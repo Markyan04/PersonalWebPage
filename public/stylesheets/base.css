@@ -58,7 +58,7 @@ nav .logo .logo-image {
 /* Main content styles */
 .content-root {
   display: flex;
-  padding: 2rem calc((100% - min(1200px, 90%)) / 2) 0.5rem;
+  padding: 2rem calc((100% - min(1200px, 90%)) / 2) 2rem;
   flex-direction: row;
 }
 
@@ -69,7 +69,6 @@ nav .logo .logo-image {
 }
 
 /* Footer styles */
-/* ... 其他样式 ... */
 
 .footer-part {
   background: #2d3748;
