@@ -22,7 +22,7 @@
     margin: 0;
 }
 
-/*avatar box styles */
+/* Avatar box styles */
 .avatar-box {
     display: flex;
     flex-direction: column;
@@ -82,4 +82,100 @@
 .contact-icon:hover {
     transform: scale(1.15);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Article List styles */
+/* 文章列表容器 - Grid布局 */
+.article-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2列 */
+    gap: 25px; /* 文章间距 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 单个文章项样式 */
+.article-item {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    height: 100%; /* 确保等高 */
+    display: flex;
+    flex-direction: column;
+}
+
+/* 悬停效果 */
+.article-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* 分类标签容器 */
+.article-classify {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 主分类样式 */
+.main-classify {
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* 子分类容器 */
+.sub-classify {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* 子分类标签样式 */
+.sub-classify-item {
+    background: #edf2f7;
+    color: #2d3748;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+/* 文章标题样式 */
+.article-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 10px 0 15px;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    flex-grow: 1; /* 让标题区域填充空间 */
+}
+
+.article-title:hover {
+    color: #4299e1;
+}
+
+/* 文章摘要样式 */
+.article-summary {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    flex-grow: 2; /* 让摘要区域填充空间 */
+}
+
+/* 发布日期样式 */
+.article-published-at {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-top: auto; /* 推到底部 */
+    padding-top: 10px;
+    border-top: 1px solid #e2e8f0;
 }
