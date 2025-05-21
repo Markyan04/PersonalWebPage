@@ -5,13 +5,15 @@
  */
 const app = require('../app');
 const debug = require('debug')('webassignment:server');
+const envdot = require('dotenv');
 const http = require('http');
+envdot.config();
 
 /**
  * Get port from environment and store in Express.
  */
 const port = normalizePort(process.env.PORT || '7000');
-const hostname = process.env.HOSTNAME || 'localhost';
+const hostname = process.env.HOSTNAME || '127.0.0.1';
 app.set('port', port);
 
 /**
@@ -24,7 +26,12 @@ const server = http.createServer(app);
  */
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  if (process.env.HOSTNAME === '0.0.0.0') {
+    console.log(`Server running at http://${process.env.HOSTNAME_NICKNAME}:${port}/`);
+  }
+  else {
+    console.log(`Server running at http://${hostname}:${port}/`);
+  }
 });
 
 server.on('error', onError);
