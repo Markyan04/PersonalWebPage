@@ -1,7 +1,5 @@
 /* Structure styles */
 .intro-root {
-    display: flex;
-    flex-direction: row;
     width: 100%;
     background-color: #f8f9fa;
 }
@@ -23,10 +21,6 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .intro-root {
-        flex-direction: column;
-    }
-
     .left-content-box,
     .right-content-box {
         width: 100%;
@@ -211,7 +205,7 @@
 }
 
 .article-item {
-    height: 380px;
+    height: 400px;
     background: white;
     border-radius: 12px;
     padding: 25px;

@@ -57,5 +57,71 @@ nav .logo .logo-image {
 
 /* Main content styles */
 .content-root {
+  display: flex;
   padding: 2rem calc((100% - min(1200px, 90%)) / 2) 0.5rem;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 1000px) {
+  .content-root {
+    flex-direction: column;
+  }
+}
+
+/* Footer styles */
+/* ... 其他样式 ... */
+
+.footer-part {
+  background: #2d3748;
+  color: white;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-text {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.footer-text img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.footer-text span {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.footer-text div {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+.classification-text {
+  text-align: right;
+  font-size: 0.9rem;
+  color: #a0aec0;
+}
+
+.classification-text div {
+  margin-bottom: 5px;
+}
+
+@media screen and (max-width: 600px) {
+  .footer-part {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .classification-text {
+    text-align: center;
+  }
 }
