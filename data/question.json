@@ -1,0 +1,102 @@
+[
+  {
+    "text": "1. What is the order of event propagation in JavaScript?",
+    "options": [
+      "A. Bubbling phase → Target phase → Capturing phase",
+      "B. Capturing phase → Target phase → Bubbling phase",
+      "C. Target phase → Capturing phase → Bubbling phase",
+      "D. Capturing phase → Bubbling phase → Target phase"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "2. Which directive in Vue is used to achieve two-way data binding",
+    "options": [
+      "A. v-bind",
+      "B. v-model",
+      "C. v-on",
+      "D. v-if"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "3. In Vue, which lifecycle hook is triggered after a component is mounted to the DOM?",
+    "options": [
+      "A. created()",
+      "B. mounted()",
+      "C. updated()",
+      "D. destroyed()"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "4. Which HTML API is used for persistent client-side data storage?",
+    "options": [
+      "A. Cookies",
+      "B. sessionStorage",
+      "C. localStorage",
+      "D. IndexedDB"
+    ],
+    "answer": "C"
+  },
+  {
+    "text": "5. What is the default Bean scope in Spring?",
+    "options": [
+      "A. Prototype",
+      "B. Singleton",
+      "C. Request",
+      "D. Session"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "6. What is the primary purpose of a database index?",
+    "options": [
+      "A. Ensure data uniqueness",
+      "B. Speed up query performance",
+      "C. Reduce storage space",
+      "D. Prevent data loss"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "7. In RESTful APIs, the key difference between PUT and POST is?",
+    "options": [
+      "A. PUT creates resources, POST updates them",
+      "B. PUT is idempotent, POST is not",
+      "C. POST supports complex request body formats",
+      "D. PUT requires full resource data"
+    ],
+    "answer": "B"
+  },
+  {
+    "text": "8. The structure of a JWT (JSON Web Token) consists of",
+    "options": [
+      "A. Header.Body.Signature",
+      "B. Token.Key.Secret",
+      "C. Username.Password.Expiry",
+      "D. JSON.XML.YAML"
+    ],
+    "answer": "A"
+  },
+  {
+    "text": "9. Which of the following is NOT part of a process context?",
+    "options": [
+      "A. Process state information",
+      "B. Process control block",
+      "C. Interrupt vector",
+      "D. User stack"
+    ],
+    "answer": "C"
+  },
+  {
+    "text": "10. In TCP, the sliding window mechanism is used for:",
+    "options": [
+      "A. Congestion control",
+      "B. Routing control",
+      "C. Error control",
+      "D. Flow control"
+    ],
+    "answer": "D"
+  }
+]
