@@ -1,27 +1,25 @@
 const socketIo = require('socket.io');
+const SocketController = require('./controllers/socketController');
+const SocketService = require('./services/socketService');
 
 let io;
 
 exports.init = (server) => {
-  io = socketIo(server);
+  io = socketIo(server, {
+    connectionStateRecovery: {
+      maxDisconnectionDuration: 2 * 60 * 1000
+    }
+  });
+
+  const controller = new SocketController(io);
 
   io.on('connection', (socket) => {
-    console.log('A user connected');
+    // Prevent duplicate connections
+    if (socket.recovered) {
+      console.log(`Connection recovered: ${socket.id}`);
+      return;
+    }
 
-    socket.on('setName', (username) => {
-      console.log(`User set name: ${username}`);
-      socket.username = username;
-    })
-
-    socket.on('disconnect', () => {
-      console.log(`User disconnected: ${socket.username || 'Unknown'}`);
-    });
+    controller.handleConnection(socket);
   });
-}
-
-exports.getIo = () => {
-  if (!io) {
-    throw new Error('Socket.io not initialized');
-  }
-  return io;
-}
+};

@@ -4,6 +4,7 @@
     <title>Quiz Hall</title>
     <link rel="stylesheet" href="/stylesheets/base.css">
     <link rel="stylesheet" href="/stylesheets/image.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/hall.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
@@ -36,12 +37,24 @@
         <h1 class="banner-title">Welcome to Quiz</h1>
     </div>
 </div>
-<div class="content-root">
-    <div class="matching-part">
-    
+<div class="content-root hall-root">
+    <div class="user-info-part">
+        <h1 class="hall-title">
+            Matching Hall
+        </h1>
+        <div class="current-user-title">
+            <span id="current-user-title">Current Username: </span>
+            <span id="current-user-name">Unknown</span>
+            <button class="logout-button">Logout</button>
+        </div>
     </div>
-    <div class="accept-part">
-    
+    <div class="quiz-part">
+        <div class="matching-part">
+        
+        </div>
+        <div class="accept-part">
+        
+        </div>
     </div>
 </div>
 <div class="footer-part">
@@ -59,5 +72,6 @@
         </div>
     </div>
 </div>
+<script type="module" src="/javascripts/hall.js"></script>
 </body>
 </html>

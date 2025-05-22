@@ -4,6 +4,7 @@
     <title>Quiz Login</title>
     <link rel="stylesheet" href="/stylesheets/base.css">
     <link rel="stylesheet" href="/stylesheets/image.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/login.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
@@ -59,31 +60,14 @@
             </p>
         </div>
         <div class="input-name">
-            <div class="input-name-title">
-                <h2>Enter Your Name</h2>
-            </div>
-            <div class="input-name-text">
-            
-            </div>
+            <label for="username" class="input-name-text">
+                Please enter your name:
+            </label>
+            <input type="text" id="username" name="username" placeholder="Enter your name here" required>
+            <button class="input-name-button">
+                Upload
+            </button>
         </div>
-    </div>
-    <div class="matching-part">
-    
-    </div>
-    <div class="accept-part">
-    
-    </div>
-    <div class="match-success-part">
-    
-    </div>
-    <div class="question-part">
-    
-    </div>
-    <div class="status-part">
-    
-    </div>
-    <div class="result-part">
-
     </div>
 </div>
 <div class="footer-part">
@@ -101,5 +85,6 @@
         </div>
     </div>
 </div>
+<script type="module" src="/javascripts/login.js"></script>
 </body>
 </html>
