@@ -1,29 +1,13 @@
-#!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-const app = require('../app');
+const { server, app} = require('../app');
 const debug = require('debug')('webassignment:server');
 const envdot = require('dotenv');
 const http = require('http');
 envdot.config();
 
-/**
- * Get port from environment and store in Express.
- */
 const port = normalizePort(process.env.PORT || '7000');
 const hostname = process.env.HOSTNAME || '127.0.0.1';
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
 
 server.listen(port, hostname, () => {
   if (process.env.HOSTNAME === '0.0.0.0') {
@@ -36,10 +20,6 @@ server.listen(port, hostname, () => {
 
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
@@ -56,10 +36,6 @@ function normalizePort(val) {
 
   return false;
 }
-
-/**
- * Event listener for HTTP server "error" event.
- */
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -84,10 +60,6 @@ function onError(error) {
       throw error;
   }
 }
-
-/**
- * Event listener for HTTP server "listening" event.
- */
 
 function onListening() {
   const addr = server.address();
