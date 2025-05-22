@@ -10,6 +10,10 @@ const socket = require('./sockets');
 const indexRouter = require('./routes/intro');
 const aboutRouter = require('./routes/about');
 const quizRouter = require('./routes/quiz');
+const hallRouter = require('./routes/hall');
+const loginRouter = require('./routes/login');
+const resultRouter = require('./routes/result');
+
 
 const app = express();
 const server = http.createServer(app);
@@ -29,6 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/about', aboutRouter);
 app.use('/quiz', quizRouter);
+app.use('/login', loginRouter);
+app.use('/hall', hallRouter);
+app.use('/result', resultRouter);
 
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
