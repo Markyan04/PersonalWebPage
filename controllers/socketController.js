@@ -1,9 +1,11 @@
 import SocketService from '../services/socketService.js';
+import MatchingController from './matchingController.js';
 
 class SocketController {
     constructor(io) {
         this.io = io;
         this.service = SocketService.getInstance();
+        this.matchingController = new MatchingController(io);
     }
 
     handleConnection(socket) {
@@ -25,6 +27,8 @@ class SocketController {
             }
             this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
         });
+
+        this.matchingController.registerEvents(socket);
     }
 }
 

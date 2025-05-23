@@ -1,4 +1,4 @@
-function loginAndRedirect() {
+const loginAndRedirect = () => {
     let username = document.getElementById("username").value;
     if (!username.trim()) {
         alert("Please enter a username.");
