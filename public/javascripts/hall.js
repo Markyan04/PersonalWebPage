@@ -8,8 +8,8 @@ function logout() {
 
 function initState() {
     document.querySelector('.in-matching-part').style.display = 'none';
-    document.querySelector('.waiting-response-part').style.display = 'none';
-    // document.querySelector('.nobody-challenge-part').style.display = 'none';
+    // document.querySelector('.waiting-response-part').style.display = 'none';
+    document.querySelector('.nobody-challenge-part').style.display = 'none';
     document.querySelector('.matching-success-part').style.display = 'none';
 }
 
@@ -39,32 +39,10 @@ function acceptMatchingState() {
     document.querySelector('.matching-success-part').style.display = 'block';
 }
 
-const startMatching = (targetPlayer) => {
-    document.getElementById('matching-player-1').textContent = targetPlayer;
-    matchingOtherState();
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    const username = localStorage.getItem("username") || "Unknown";
-    document.getElementById("current-user-name").textContent = username;
-    document.querySelector('.logout-button').addEventListener('click', logout);
-
-    initState();
-
-    socket.emit('connected', username);
-
-    socket.on('authSuccess', (username) => {
-        console.log("Auth success:", username);
-    })
-
-    socket.on('authFailed', (username) => {
-        console.log("The username has been occupied:", username);
-        alert("The username has been occupied, please login again and change it");
-        logout();
-    })
-
-    let onlinePlayers = [];
+function updateOnlinePlayers(onlinePlayers) {
+    onlinePlayers = onlinePlayers.filter(player => player !== localStorage.getItem("username"));
     const matchingList = document.getElementById('matching-list');
+    matchingList.innerHTML = '';
 
     if (onlinePlayers.length === 0) {
         const div = document.createElement('div');
@@ -81,6 +59,37 @@ document.addEventListener('DOMContentLoaded', () => {
             matchingList.appendChild(div);
         });
     }
+}
+
+const startMatching = (targetPlayer) => {
+    document.getElementById('matching-player-1').textContent = targetPlayer;
+    matchingOtherState();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const username = localStorage.getItem("username") || "Unknown";
+    document.getElementById("current-user-name").textContent = username;
+    document.querySelector('.logout-button').addEventListener('click', logout);
+    document.querySelector('.href-link').addEventListener('click', logout);
+
+    initState();
+
+    socket.emit('connected', username);
+
+    socket.on('authSuccess', (username) => {
+        console.log("Auth success:", username);
+    })
+
+    socket.on('authFailed', (username) => {
+        console.log("The username has been occupied:", username);
+        alert("The username has been occupied, please login again and change it");
+        logout();
+    })
+
+    socket.on('onlineUserListUpdated', (onlineUserList) => {
+        updateOnlinePlayers(onlineUserList);
+        console.log("Online users:", onlineUserList);
+    });
 
     document.getElementById('cancel-matching-button').addEventListener('click', () => {
         document.querySelector('.before-matching-part').style.display = 'block';

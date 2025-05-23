@@ -15,7 +15,7 @@ class SocketController {
                 return;
             }
             socket.emit('authSuccess', { username });
-
+            this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
         });
 
         socket.on('disconnect', () => {
@@ -23,6 +23,7 @@ class SocketController {
             if (deleteResult.success === false) {
                 console.log(`User not found: ${socket.id}`);
             }
+            this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
         });
     }
 }

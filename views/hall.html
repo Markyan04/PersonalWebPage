@@ -4,7 +4,10 @@
     <title>Quiz Hall</title>
     <link rel="stylesheet" href="/stylesheets/base.css">
     <link rel="stylesheet" href="/stylesheets/image.css">
-    <link rel="stylesheet" href="/stylesheets/quiz/hall.css">
+    <link rel="stylesheet" href="/stylesheets/hall/hall.css">
+    <link rel="stylesheet" href="/stylesheets/hall/user.css">
+    <link rel="stylesheet" href="/stylesheets/hall/accept.css">
+    <link rel="stylesheet" href="/stylesheets/hall/match.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
@@ -84,16 +87,24 @@
                 </p>
             </div>
             <div class="waiting-response-part">
-                <h1 class="matching-title">Waiting For Response</h1>
-                <p class="matching-text">
-                    <span id="matching-player-3">Unknown</span> is waiting for your response.
+                <h1 class="waiting-title">Waiting For Response</h1>
+                <p class="waiting-text">
+                    The following player has challenged you. Please accept or refuse.
                 </p>
-                <button class="accept-matching-button" id="accept-matching-button">
-                    Accept
-                </button>
-                <button class="refuse-matching-button" id="refuse-matching-button">
-                    Refuse
-                </button>
+                <div class="matching-waiting-list">
+                    <div class="waiting-item">
+                        <span class="waiting-info">Unknown</span>
+                        <div class="waiting-buttons">
+                            <button class="accept-matching-button">
+                                Accept
+                            </button>
+                            <button class="refuse-matching-button">
+                                Refuse
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>

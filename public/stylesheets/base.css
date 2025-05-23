@@ -60,7 +60,7 @@ nav .logo .logo-image {
   display: flex;
   padding: 2rem calc((100% - min(1200px, 90%)) / 2) 2rem;
   flex-direction: row;
-  min-height: 60vh;
+  min-height: 70vh;
 }
 
 @media screen and (max-width: 1000px) {

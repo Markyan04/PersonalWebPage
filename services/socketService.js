@@ -45,6 +45,10 @@ class SocketService {
             message: 'User not found'
         }
     }
+
+    getOnlineUsers() {
+        return this.userList.getConnectedUsers();
+    }
 }
 
 export default SocketService;
