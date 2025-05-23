@@ -1,26 +1,30 @@
-const createError = require('http-errors');
-const express = require('express');
-const favicon = require('serve-favicon');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const http = require('http');
-const socket = require('./sockets');
+import createError from 'http-errors';
+import express from 'express';
+import favicon from 'serve-favicon';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
+import http from 'http';
+import { init } from './sockets.js';
+import ejs from 'ejs';
 
-const indexRouter = require('./routes/intro');
-const aboutRouter = require('./routes/about');
-const quizRouter = require('./routes/quiz');
-const hallRouter = require('./routes/hall');
-const loginRouter = require('./routes/login');
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+import indexRouter from './routes/intro.js';
+import aboutRouter from './routes/about.js';
+import quizRouter from './routes/quiz.js';
+import hallRouter from './routes/hall.js';
+import loginRouter from './routes/login.js';
 
 const app = express();
 const server = http.createServer(app);
-socket.init(server);
+init(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'html');
-app.engine('html', require('ejs').renderFile);
+app.engine('html', ejs.renderFile);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -52,4 +56,4 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = { app, server };
+export { app, server };

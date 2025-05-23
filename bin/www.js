@@ -1,8 +1,10 @@
-const { server, app} = require('../app');
-const debug = require('debug')('webassignment:server');
-const envdot = require('dotenv');
-const http = require('http');
-envdot.config();
+import { server, app } from '../app.js';
+import debugModule from 'debug';
+import dotenv from 'dotenv';
+import http from 'http';
+
+const debug = debugModule('webassignment:server');
+dotenv.config();
 
 const port = normalizePort(process.env.PORT || '7000');
 const hostname = process.env.HOSTNAME || '127.0.0.1';

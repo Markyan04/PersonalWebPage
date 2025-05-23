@@ -1,4 +1,4 @@
-const SocketService = require('../services/SocketService');
+import SocketService from '../services/socketService.js';
 
 class SocketController {
     constructor(io) {
@@ -9,14 +9,22 @@ class SocketController {
     handleConnection(socket) {
         socket.on('connected', (username) => {
             socket.userName = username;
-            this.service.addUser(socket.id, username);
+            let addResult = this.service.addUser(socket.id, username);
+            if (addResult.success === false) {
+                socket.emit('authFailed', { username });
+                return;
+            }
             socket.emit('authSuccess', { username });
+
         });
 
         socket.on('disconnect', () => {
-            this.service.removeUser(socket.id);
+            let deleteResult = this.service.removeUser(socket.id);
+            if (deleteResult.success === false) {
+                console.log(`User not found: ${socket.id}`);
+            }
         });
     }
 }
 
-module.exports = SocketController;
+export default SocketController;

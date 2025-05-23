@@ -1,11 +1,10 @@
-const socketIo = require('socket.io');
-const SocketController = require('./controllers/socketController');
-const SocketService = require('./services/socketService');
+import { Server } from 'socket.io';
+import SocketController from './controllers/socketController.js';
 
 let io;
 
-exports.init = (server) => {
-  io = socketIo(server, {
+export function init(server) {
+  io = new Server(server, {
     connectionStateRecovery: {
       maxDisconnectionDuration: 2 * 60 * 1000
     }
