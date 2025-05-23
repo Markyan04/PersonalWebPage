@@ -48,12 +48,53 @@
             <button class="logout-button">Logout</button>
         </div>
     </div>
+    <div class="matching-success-part">
+        <h1 class="matching-title">Matching Success</h1>
+        <p class="matching-text">
+            You have successfully matched with <span id="matching-player-2">Unknown</span>.
+            Redirecting to the game page in <span id="matching-countdown">5</span> seconds.
+        </p>
+    </div>
     <div class="quiz-part">
         <div class="matching-part">
-        
+            <div class="before-matching-part">
+                <h1 class="matching-title">Current online players</h1>
+                <p class="matching-text">
+                    The following list shows the current online players. If you want to play against them, you can click on their tags.
+                </p>
+                <div class="matching-list" id="matching-list">
+<!--                    <div class="player-item"></div>-->
+                </div>
+            </div>
+            <div class="in-matching-part">
+                <h1 class="matching-title">Matching</h1>
+                <p class="matching-text">
+                    You are now matching. The player you choose is <span id="matching-player-1">Unknown</span>.
+                </p>
+                <button class="cancel-matching-button" id="cancel-matching-button">
+                    Cancel
+                </button>
+            </div>
         </div>
         <div class="accept-part">
-        
+            <div class="nobody-challenge-part">
+                <h1 class="matching-title">No Matching Applications</h1>
+                <p class="matching-text">
+                    There are no matching applications for now
+                </p>
+            </div>
+            <div class="waiting-response-part">
+                <h1 class="matching-title">Waiting For Response</h1>
+                <p class="matching-text">
+                    <span id="matching-player-3">Unknown</span> is waiting for your response.
+                </p>
+                <button class="accept-matching-button" id="accept-matching-button">
+                    Accept
+                </button>
+                <button class="refuse-matching-button" id="refuse-matching-button">
+                    Refuse
+                </button>
+            </div>
         </div>
     </div>
 </div>
