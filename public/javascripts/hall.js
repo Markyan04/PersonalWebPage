@@ -92,16 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('cancel-matching-button').addEventListener('click', () => {
-        document.querySelector('.before-matching-part').style.display = 'block';
-        document.querySelector('.in-matching-part').style.display = 'none';
         matchingOtherCancelState();
-    });
-
-    document.getElementById('accept-matching-button').addEventListener('click', () => {
-        acceptMatchingState();
-    });
-
-    document.getElementById('refuse-matching-button').addEventListener('click', () => {
-        refuseMatchingState();
     });
 });
