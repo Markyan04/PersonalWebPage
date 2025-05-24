@@ -1,69 +1,69 @@
 /* Contact box styles */
 .contact-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  max-width: 300px;
-  margin: 25px auto;
-  padding: 25px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    max-width: 300px;
+    margin: 25px auto;
+    padding: 25px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .contact-box:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
 }
 
 .contact-section {
-  margin-bottom: 20px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #e2e8f0;
-  align-items: flex-start;
-  width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+    align-items: flex-start;
+    width: 100%;
 }
 
 .contact-section:last-child {
-  margin-bottom: 0;
-  padding-bottom: 0;
-  border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
 }
 
 .contact-line-1 {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .contact-line-1 img {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .platform-username {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #2d3748;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2d3748;
 }
 
 .platform-url a {
-  color: #4299e1;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.2s ease;
-  align-items: flex-start;
+    color: #4299e1;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s ease;
+    align-items: flex-start;
 }
 
 .platform-url a:hover {
-  color: #3182ce;
+    color: #3182ce;
 }
 
 .contact-icon-transparent {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  transition: all 0.3s ease;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }

@@ -1,93 +1,93 @@
 /* User info part style */
 .user-info-part {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 2rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow:
-      0 12px 24px -12px rgba(0, 0, 0, 0.1),
-      0 0 15px rgba(0, 0, 0, 0.02);
-  position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow:
+            0 12px 24px -12px rgba(0, 0, 0, 0.1),
+            0 0 15px rgba(0, 0, 0, 0.02);
+    position: relative;
 }
 
 .hall-title {
-  font-size: 2.2rem;
-  color: #1e293b;
-  margin: 0;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-  background: linear-gradient(45deg, #3b82f6 0%, #6366f1 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  width: 100%;
-  text-align: center;
+    font-size: 2.2rem;
+    color: #1e293b;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    background: linear-gradient(45deg, #3b82f6 0%, #6366f1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    width: 100%;
+    text-align: center;
 }
 
 .current-user-title {
-  font-size: 1.25rem;
-  justify-content: flex-end;
-  color: #64748b;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
+    font-size: 1.25rem;
+    justify-content: flex-end;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    width: 100%;
 }
 
 #current-user-name {
-  color: #3b82f6;
-  font-weight: 600;
-  font-size: 1.35rem;
-  padding: 0.25rem 0.75rem;
-  background: #eff6ff;
-  border-radius: 6px;
+    color: #3b82f6;
+    font-weight: 600;
+    font-size: 1.35rem;
+    padding: 0.25rem 0.75rem;
+    background: #eff6ff;
+    border-radius: 6px;
 }
 
 .logout-button {
-  align-self: flex-end;
-  background-color: #007bff;
-  color: white;
-  border-radius: 8px;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  width: fit-content;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  transition: background-color 0.3s;
+    align-self: flex-end;
+    background-color: #007bff;
+    color: white;
+    border-radius: 8px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s;
 }
 
 .logout-button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 5px 15px rgba(68, 148, 239, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(68, 148, 239, 0.3);
 }
 
 @media (max-width: 1000px) {
-  .user-info-part {
-    padding: 1rem;
-    gap: 1rem;
-    border-radius: 12px;
-  }
+    .user-info-part {
+        padding: 1rem;
+        gap: 1rem;
+        border-radius: 12px;
+    }
 
-  .hall-title {
-    font-size: 1.75rem;
-    letter-spacing: -0.015em;
-  }
+    .hall-title {
+        font-size: 1.75rem;
+        letter-spacing: -0.015em;
+    }
 
-  .current-user-title {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-  }
+    .current-user-title {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.5rem;
+        font-size: 1.1rem;
+    }
 
-  #current-user-name {
-    font-size: 1.1rem;
-    padding: 0.2rem 0.6rem;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 60%;
-  }
+    #current-user-name {
+        font-size: 1.1rem;
+        padding: 0.2rem 0.6rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
 }
