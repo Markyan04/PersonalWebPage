@@ -4,6 +4,10 @@
     <title>Quiz</title>
     <link rel="stylesheet" href="/stylesheets/base.css">
     <link rel="stylesheet" href="/stylesheets/image.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/quiz.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/ready.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/question.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/status.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
@@ -36,12 +40,79 @@
         <h1 class="banner-title">Higher, Faster, Stronger</h1>
     </div>
 </div>
-<div class="content-root">
-    <div class="question-part">
-    
+<div class="content-root quiz-root">
+    <div class="ready-part">
+        <h1 class="ready-title">Ready to Play?</h1>
+        <p class="ready-text">
+            You are now ready to play the quiz. Click the button below to start.
+        </p>
+        <button class="start-button">Start</button>
+        <p>
+            You are ready. Waiting for your opponent.
+        </p>
     </div>
-    <div class="status-part">
-    
+    <div class="test-part">
+        <div class="question-part">
+            <h1>Question</h1>
+            <div class="timer-part">
+                <img src="/images/clock.svg" alt="Clock" class="clock-img">
+                <span class="timer-text">
+                    Time Left: <span id="timer">30</span>s
+                </span>
+            </div>
+            <div class="question-item">
+                <div class="question-text">
+                    1. What is the order of event propagation in JavaScript?
+                </div>
+                <div class="option-part">
+                    <div class="option-item" id="option-item-1">
+                        A. Bubbling phase → Target phase → Capturing phase
+                    </div>
+                    <div class="option-item" id="option-item-2">
+                        B. Capturing phase → Target phase → Bubbling phase
+                    </div>
+                    <div class="option-item" id="option-item-3">
+                        C. Target phase → Capturing phase → Bubbling phase
+                    </div>
+                    <div class="option-item" id="option-item-4">
+                        D. Capturing phase → Bubbling phase → Target phase
+                    </div>
+                </div>
+            </div>
+            <div class="operation-part">
+                <button class="upload-button">
+                    Upload
+                </button>
+                <button class="ready-for-next-button">
+                    Ready for Next
+                </button>
+            </div>
+        </div>
+        <div class="status-part">
+            <h1>Result</h1>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 10%">
+                    <span class="progress-text">1/10</span>
+                </div>
+            </div>
+            <div class="result-text result-correct">
+                You are correct and faster than your opponent.
+            </div>
+            <div class="score-part">
+                <div class="score-item">
+                    <span class="score-title">Points for this question:</span>
+                    <span class="score-value">+2</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-title">Current total points</span>
+                    <span class="score-value">2</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-title">Opponent's current total score:</span>
+                    <span class="score-value">0</span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 <div class="footer-part">

@@ -22,7 +22,7 @@ class SocketService {
             };
         }
         this.userList.addUser(socketId, username);
-        console.log(`User has connected: ${username} (Total: ${this.userList.getConnectedUsers().length})`);
+        console.log(`User has connected: ${username}, ${socketId} (Total: ${this.userList.getConnectedUsers().length})`);
         return {
             success: true,
             message: 'User added successfully'
@@ -34,7 +34,7 @@ class SocketService {
             const username = this.userList.getConnectedUserSocketIdsWithName()
                     .find(u => u.socketId === socketId).username;
             this.userList.removeUser(socketId);
-            console.log(`User has disconnected: ${username} (Remainder: ${this.userList.getConnectedUsers().length})`);
+            console.log(`User has disconnected: ${username}, ${socketId} (Remainder: ${this.userList.getConnectedUsers().length})`);
             return {
                 success: true,
                 message: 'User removed successfully'

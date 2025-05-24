@@ -1,7 +1,6 @@
 import { server, app } from '../app.js';
 import debugModule from 'debug';
 import dotenv from 'dotenv';
-import http from 'http';
 
 const debug = debugModule('webassignment:server');
 dotenv.config();

@@ -7,6 +7,7 @@ class UserList {
         }
         this.connectedUsers = new Map();
         this.onCompetitionUsers = new Map();
+        this.onCompetitionPairs = new Map();
         UserList.#instance = this;
     }
 
