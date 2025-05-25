@@ -7,7 +7,7 @@ class PageManager {
 
     static showMatchingPart = () => {
         document.querySelector('.before-matching-part').style.display = 'none';
-    document.querySelector('.in-matching-part').style.display = 'block';1
+    document.querySelector('.in-matching-part').style.display = 'block';
     }
 
     static showMatchingList = () => {

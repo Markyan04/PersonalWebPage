@@ -1,11 +1,13 @@
 import SocketService from '../services/socketService.js';
 import MatchingController from './matchingController.js';
+import QuizController from './quizController.js';
 
 class SocketController {
     constructor(io) {
         this.io = io;
         this.service = SocketService.getInstance();
         this.matchingController = new MatchingController(io);
+        this.quizController = new QuizController(io);
     }
 
     handleConnection(socket) {
@@ -29,6 +31,7 @@ class SocketController {
         });
 
         this.matchingController.registerEvents(socket);
+        this.quizController.registerEvents(socket);
     }
 }
 

@@ -7,7 +7,6 @@ class UserList {
         }
         this.connectedUsers = new Map();
         this.onCompetitionUsers = new Map();
-        this.onCompetitionPairs = new Map();
         UserList.#instance = this;
     }
 
@@ -78,6 +77,17 @@ class UserList {
          */
         return Array.from(this.connectedUsers.values())
                 .filter(username => !this.onCompetitionUsers.has(username));
+    }
+
+    getSocketIdByUsername(username) {
+        /**
+         * @returns {string | undefined}
+         */
+        for (const [socketId, user] of this.connectedUsers) {
+            if (user === username) {
+                return socketId;
+            }
+        }
     }
 }
 

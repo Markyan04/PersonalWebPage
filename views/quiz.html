@@ -43,11 +43,11 @@
 <div class="content-root quiz-root">
     <div class="ready-part">
         <h1 class="ready-title">Ready to Play?</h1>
-        <p class="ready-text">
+        <p class="ready-text-before">
             You are now ready to play the quiz. Click the button below to start.
         </p>
-        <button class="start-button">Start</button>
-        <p>
+        <button class="start-button start-button-before" id="start-button">Start</button>
+        <p class="ready-text-after">
             You are ready. Waiting for your opponent.
         </p>
     </div>
@@ -61,7 +61,7 @@
                 </span>
             </div>
             <div class="question-item">
-                <div class="question-text">
+                <div class="question-text" id="question-text">
                     1. What is the order of event propagation in JavaScript?
                 </div>
                 <div class="option-part">
@@ -80,10 +80,10 @@
                 </div>
             </div>
             <div class="operation-part">
-                <button class="upload-button">
+                <button class="upload-button" id="upload-button">
                     Upload
                 </button>
-                <button class="ready-for-next-button">
+                <button class="ready-for-next-button" id="ready-for-next-button">
                     Ready for Next
                 </button>
             </div>
@@ -130,5 +130,6 @@
         </div>
     </div>
 </div>
+<script type="module" src="/javascripts/quiz.js"></script>
 </body>
 </html>

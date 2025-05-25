@@ -5,7 +5,8 @@
 
 .waiting-response-part {
     padding: 0.5rem;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
+    height: 90%;
 }
 
 .matching-waiting-list {
@@ -16,6 +17,7 @@
     overflow-y: auto;
     padding-right: 0.5rem;
     flex-grow: 1;
+    height: 90%;
 }
 
 .waiting-title {
