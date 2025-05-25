@@ -30,11 +30,9 @@ class SocketService {
     }
 
     addOrUpdateUser(socketId, username) {
-        if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.username === username)) {
-            this.userList.updateUser(socketId, username);
-        }
-        else {
-            this.userList.addUser(socketId, username);
+        this.userList.addUser(socketId, username);
+        if (this.userList.getOnCompetitionUserSocketIdsWithName().some(u => u.username === username)) {
+            this.userList.addOnCompetitionUser(socketId, username);
         }
         console.log(`User has connected: ${username}, ${socketId} (Total: ${this.userList.getConnectedUsers().length})`);
         return {
@@ -59,7 +57,7 @@ class SocketService {
     }
 
     getOnlineUsers() {
-        return this.userList.getConnectedUsers();
+        return this.userList.getOnlineUsers();
     }
 }
 

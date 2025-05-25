@@ -1,4 +1,5 @@
 import { socket } from './socket/index.js';
+import LoadingManager from "./utils/loading.js";
 
 const readyPageInit = () => {
     document.querySelector('.test-part').style.display = 'none';
@@ -59,10 +60,25 @@ const registerQuizEvents = () => {
         enterTestPage();
         renderQuestion(questionInfo);
     })
+
+    socket.on('authSuccess', (username) => {
+        LoadingManager.hide();
+        console.log("Auth success:", username);
+    })
+
+    socket.on('authFailed', (username) => {
+        LoadingManager.hide();
+        console.log("The username has been occupied:", username);
+        alert("Failed to connect to the server");
+    })
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     readyPageInit();
+    socket.emit('quizConnected');
+    LoadingManager.show();
+    registerQuizEvents();
+
     const { launchUsername, receiveUsername } = getUrlParams();
 
     document.getElementById('start-button').addEventListener('click', () => {

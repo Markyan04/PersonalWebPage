@@ -1,6 +1,7 @@
-import {socket} from './socket/index.js';
-import {PageManager} from "./utils/page.js";
+import { socket } from './socket/index.js';
+import { PageManager } from "./utils/page.js";
 import Timer from "./utils/timer.js";
+import LoadingManager from "./utils/loading.js";
 
 let localStorageOnlinePlayers = [];
 let localStorageChallengers = [];
@@ -134,10 +135,12 @@ const matchingSuccess = (launchUsername, receiveUsername) => {
 
 const registerMatchingEvents = () => {
     socket.on('authSuccess', (username) => {
+        LoadingManager.hide();
         console.log("Auth success:", username);
     })
 
     socket.on('authFailed', (username) => {
+        LoadingManager.hide();
         console.log("The username has been occupied:", username);
         alert("The username has been occupied, please login again and change it");
         logout();
@@ -167,12 +170,15 @@ const registerMatchingEvents = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    LoadingManager.hide();
+
     document.getElementById("current-user-name").textContent = localStorage.getItem('username');
     document.querySelector('.logout-button').addEventListener('click', logout);
     document.querySelector('.href-link').addEventListener('click', logout);
 
     PageManager.initState();
     socket.emit('firstConnected');
+    LoadingManager.show();
 
     registerMatchingEvents();
 

@@ -1,9 +1,11 @@
 import MatchingService from '../services/matchingService.js';
+import SocketService from "../services/socketService.js";
 
 export default class MatchingController {
     constructor(io) {
         this.io = io;
         this.matchingService = MatchingService.getInstance();
+        this.socketService = SocketService.getInstance();
     }
 
     registerEvents(socket) {
@@ -41,6 +43,7 @@ export default class MatchingController {
                     receiveUsername
                 });
             }
+            this.io.emit('onlineUserListUpdated', this.socketService.getOnlineUsers());
         });
 
         socket.on('applyRefusePhase1', ({ launchUsername, receiveUsername }) => {

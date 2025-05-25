@@ -17,10 +17,6 @@ class UserList {
         return UserList.#instance;
     }
 
-    updateUser(socketId, username) {
-        this.addUser(socketId, username);
-    }
-
     addUser(socketId, username) {
         this.connectedUsers.set(username, socketId);
         console.log(`User has connected: ${username} (Total: ${this.connectedUsers.size})`);
@@ -77,7 +73,7 @@ class UserList {
         /**
          * @returns {string[]}
          */
-        return Array.from(this.connectedUsers.keys());
+        return Array.from(this.connectedUsers.keys()).filter(username => !this.onCompetitionUsers.has(username));
     }
 
     getSocketIdByUsername(username) {
