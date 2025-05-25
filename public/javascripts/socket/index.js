@@ -11,6 +11,12 @@ socket.on('connect', () => {
     console.log('Connected to server with ID:', socket.id);
 });
 
+socket.on('connect_error', (error) => {
+    console.log('Connection error:', error);
+    alert('Connection failed. Please try again.');
+    window.location.href = '/login';
+});
+
 socket.on('reconnect', (attemptNumber) => {
     console.log('Reconnected after', attemptNumber, 'attempts');
 });

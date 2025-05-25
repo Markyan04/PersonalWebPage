@@ -1,3 +1,5 @@
+import LoadingManager from "./loading.js";
+
 class PageManager {
     static initState = () => {
         document.querySelector('.in-matching-part').style.display = 'none';

@@ -13,6 +13,24 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<div id="initial-loading" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;">
+    <div class="loading-spinner"></div>
+    <p>Connecting With WebSocket...</p>
+</div>
+<script>
+    document.body.style.visibility = 'hidden';
+</script>
 <nav class="navigation-part">
     <div class="logo">
         <img src="/images/avatar.png" alt="Logo" class="logo-image">
@@ -88,6 +106,9 @@
                     Ready for Next
                 </button>
             </div>
+            <div class="waiting-for-result">
+                Waiting for result...
+            </div>
         </div>
         <div class="status-part">
             <h1>Result</h1>
@@ -102,15 +123,15 @@
             <div class="score-part">
                 <div class="score-item">
                     <span class="score-title">Points for this question:</span>
-                    <span class="score-value">+2</span>
+                    <span class="score-value" id="current-score">+2</span>
                 </div>
                 <div class="score-item">
                     <span class="score-title">Current total points</span>
-                    <span class="score-value">2</span>
+                    <span class="score-value" id="total-score">2</span>
                 </div>
                 <div class="score-item">
                     <span class="score-title">Opponent's current total score:</span>
-                    <span class="score-value">0</span>
+                    <span class="score-value" id="opponent-total-score">0</span>
                 </div>
             </div>
         </div>
@@ -131,6 +152,11 @@
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('load', () => {
+        document.body.style.visibility = 'visible';
+    });
+</script>
 <script type="module" src="/javascripts/quiz.js"></script>
 </body>
 </html>

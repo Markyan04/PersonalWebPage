@@ -13,6 +13,24 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<div id="initial-loading" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;">
+    <div class="loading-spinner"></div>
+    <p>Connecting...</p>
+</div>
+<script>
+    document.body.style.visibility = 'hidden';
+</script>
 <nav class="navigation-part">
     <div class="logo">
         <img src="/images/avatar.png" alt="Logo" class="logo-image">
@@ -66,9 +84,7 @@
                 <p class="matching-text">
                     The following list shows the current online players. If you want to play against them, you can click on their tags.
                 </p>
-                <div class="matching-list" id="matching-list">
-<!--                    <div class="player-item"></div>-->
-                </div>
+                <div class="matching-list" id="matching-list"></div>
             </div>
             <div class="in-matching-part">
                 <h1 class="matching-title">Matching</h1>
@@ -92,19 +108,7 @@
                 <p class="waiting-text">
                     The following player has challenged you. Please accept or refuse.
                 </p>
-                <div class="matching-waiting-list">
-<!--                    <div class="waiting-item">-->
-<!--                        <span class="waiting-info">Unknown</span>-->
-<!--                        <div class="waiting-buttons">-->
-<!--                            <button class="accept-matching-button">-->
-<!--                                Accept-->
-<!--                            </button>-->
-<!--                            <button class="refuse-matching-button">-->
-<!--                                Refuse-->
-<!--                            </button>-->
-<!--                        </div>-->
-<!--                    </div>-->
-                </div>
+                <div class="matching-waiting-list"></div>
             </div>
         </div>
     </div>
@@ -124,6 +128,11 @@
         </div>
     </div>
 </div>
+<script>
+    window.addEventListener('load', () => {
+        document.body.style.visibility = 'visible';
+    });
+</script>
 <script type="module" src="/javascripts/hall.js"></script>
 </body>
 </html>

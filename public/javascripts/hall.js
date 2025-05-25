@@ -1,7 +1,6 @@
 import { socket } from './socket/index.js';
 import { PageManager } from "./utils/page.js";
 import Timer from "./utils/timer.js";
-import LoadingManager from "./utils/loading.js";
 
 let localStorageOnlinePlayers = [];
 let localStorageChallengers = [];
@@ -123,7 +122,7 @@ const updateOnlinePlayers = (onlinePlayers) => {
 const matchingSuccess = (launchUsername, receiveUsername) => {
     PageManager.showMatchingSuccess();
     const countdownElement = document.getElementById('matching-countdown');
-    const redirectTimer = new Timer(5, () => {
+    const redirectTimer = new Timer(3, () => {
         window.location.href = "/quiz?launchUsername=" + launchUsername + "&receiveUsername=" + receiveUsername;
     });
     redirectTimer.onUpdate = (remaining) => {
@@ -135,16 +134,66 @@ const matchingSuccess = (launchUsername, receiveUsername) => {
 
 const registerMatchingEvents = () => {
     socket.on('authSuccess', (username) => {
-        LoadingManager.hide();
-        console.log("Auth success:", username);
-    })
+        const loading = document.getElementById('initial-loading');
+        if (loading) loading.style.display = 'none';
+    });
 
     socket.on('authFailed', (username) => {
-        LoadingManager.hide();
-        console.log("The username has been occupied:", username);
-        alert("The username has been occupied, please login again and change it");
-        logout();
-    })
+        const loading = document.getElementById('initial-loading');
+        localStorage.removeItem('username');
+        if (loading) {
+            loading.innerHTML = `
+                <div style="
+                    text-align: center;
+                    background: #fff0f3;
+                    padding: 2rem;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+                    border: 1px solid #ffd6dd;
+                    max-width: 400px;
+                    margin: 1rem;
+                ">
+                    <h2 style="
+                        color: #e74c3c;
+                        margin: 0 0 1rem;
+                        font-size: 1.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 0.5rem;
+                    ">
+                        <span style="font-size: 2rem">❌</span>
+                        Authentication Failed
+                    </h2>
+                    <p style="
+                        color: #6c757d;
+                        line-height: 1.6;
+                        margin-bottom: 1.5rem;
+                    ">
+                        The username is already taken
+                    </p>
+                    <button 
+                        onclick="window.location.href='/login'"
+                        style="
+                            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+                            color: white;
+                            border: none;
+                            padding: 0.8rem 2rem;
+                            border-radius: 25px;
+                            font-size: 1rem;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 3px 8px rgba(231, 76, 60, 0.2);
+                        "
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 5px 12px rgba(231, 76, 60, 0.3)'"
+                        onmouseout="this.style.transform='none'; this.style.boxShadow='0 3px 8px rgba(231, 76, 60, 0.2)'"
+                    >
+                        Re-login
+                    </button>
+                </div>
+            `;
+        }
+    });
 
     socket.on('onlineUserListUpdated', (onlineUserList) => {
         updateOnlinePlayers(onlineUserList);
@@ -170,16 +219,12 @@ const registerMatchingEvents = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    LoadingManager.hide();
-
+    PageManager.initState();
     document.getElementById("current-user-name").textContent = localStorage.getItem('username');
     document.querySelector('.logout-button').addEventListener('click', logout);
     document.querySelector('.href-link').addEventListener('click', logout);
 
-    PageManager.initState();
     socket.emit('firstConnected');
-    LoadingManager.show();
-
     registerMatchingEvents();
 
     document.getElementById('cancel-matching-button').addEventListener('click', () => {

@@ -4,7 +4,7 @@ import SocketController from './controllers/socketController.js';
 let io;
 
 export function init(server) {
-    io = new Server(server, );
+    io = new Server(server);
 
     const controller = new SocketController(io);
 
