@@ -64,6 +64,14 @@ class QuizInfo {
     getCurrentQuestion() {
         return this.questions[this.currentQuestionIndex];
     }
+
+    updateCreatorSocketId(socketId) {
+        this.quizCreatorSocketId = socketId;
+    }
+
+    updateReceiverSocketId(socketId) {
+        this.quizReceiverSocketId = socketId;
+    }
 }
 
 export default QuizInfo;

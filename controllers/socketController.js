@@ -11,19 +11,37 @@ class SocketController {
     }
 
     handleConnection(socket) {
-        socket.on('connected', (username) => {
-            socket.userName = username;
-            let addResult = this.service.addUser(socket.id, username);
-            if (addResult.success === false) {
+        socket.on('firstConnected', () => {
+            const { username } = socket.handshake.auth;
+            let queryResult = this.service.queryUser(username, socket.id);
+            if (queryResult.success === false) {
                 socket.emit('authFailed', { username });
                 return;
             }
+            this.service.addOrUpdateUser(socket.id, username);
             socket.emit('authSuccess', { username });
             this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
         });
 
+        socket.on('quizConnected', () => {
+            const { username } = socket.handshake.auth;
+            this.service.addOrUpdateUser(socket.id, username);
+            socket.emit('authSuccess', { username });
+            this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
+        })
+
         socket.on('disconnect', () => {
-            let deleteResult = this.service.removeUser(socket.id);
+            const { username } = socket.handshake.auth;
+            let deleteResult = this.service.removeUser(socket.id, username);
+            if (deleteResult.success === false) {
+                console.log(`User not found: ${socket.id}`);
+            }
+            this.io.emit('onlineUserListUpdated', this.service.getOnlineUsers());
+        });
+
+        socket.on('logout', () => {
+            const { username } = socket.handshake.auth;
+            let deleteResult = this.service.removeUser(socket.id, username);
             if (deleteResult.success === false) {
                 console.log(`User not found: ${socket.id}`);
             }

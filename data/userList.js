@@ -17,28 +17,30 @@ class UserList {
         return UserList.#instance;
     }
 
+    updateUser(socketId, username) {
+        this.addUser(socketId, username);
+    }
+
     addUser(socketId, username) {
-        this.connectedUsers.set(socketId, username);
+        this.connectedUsers.set(username, socketId);
         console.log(`User has connected: ${username} (Total: ${this.connectedUsers.size})`);
     }
 
-    removeUser(socketId) {
-        if (this.connectedUsers.has(socketId)) {
-            const username = this.connectedUsers.get(socketId);
-            this.connectedUsers.delete(socketId);
+    removeUser(socketId, username) {
+        if (this.connectedUsers.has(username)) {
+            this.connectedUsers.delete(username);
             console.log(`User has disconnected: ${username} (Remainder: ${this.connectedUsers.size})`);
         }
     }
 
     addOnCompetitionUser(socketId, username) {
-        this.onCompetitionUsers.set(socketId, username);
+        this.onCompetitionUsers.set(username, socketId);
         console.log(`User has entered the competition: ${username} (Total: ${this.onCompetitionUsers.size})`);
     }
 
-    removeOnCompetitionUser(socketId) {
-        if (this.onCompetitionUsers.has(socketId)) {
-            const username = this.onCompetitionUsers.get(socketId);
-            this.onCompetitionUsers.delete(socketId);
+    removeOnCompetitionUser(socketId, username) {
+        if (this.onCompetitionUsers.has(username)) {
+            this.onCompetitionUsers.delete(username);
             console.log(`User has left the competition: ${username} (Remainder: ${this.onCompetitionUsers.size})`);
         }
     }
@@ -47,45 +49,44 @@ class UserList {
         /**
          * @returns {string[]}
          */
-        return Array.from(this.connectedUsers.values());
+        return Array.from(this.connectedUsers.keys());
     }
 
     getOnCompetitionUsers() {
         /**
          * @returns {string[]}
          */
-        return Array.from(this.onCompetitionUsers.values());
+        return Array.from(this.onCompetitionUsers.keys());
     }
 
     getConnectedUserSocketIdsWithName() {
         /**
-         * @returns {{ socketId: string, username: string }[]}
+         * @returns {{ username: string, socketId: string }[]}
          * */
-        return Array.from(this.connectedUsers, ([socketId, username]) => ({ socketId, username }));
+        return Array.from(this.connectedUsers, ([username, socketId]) => ({ username, socketId }));
     }
 
     getOnCompetitionUserSocketIdsWithName() {
         /**
-         * @returns {{ socketId: string, username: string }[]}
+         * @returns {{ username: string, socketId: string }[]}
          * */
-        return Array.from(this.onCompetitionUsers, ([socketId, username]) => ({ socketId, username }));
+        return Array.from(this.onCompetitionUsers, ([username, socketId]) => ({ username, socketId }));
     }
 
     getOnlineUsers() {
         /**
          * @returns {string[]}
          */
-        return Array.from(this.connectedUsers.values())
-                .filter(username => !this.onCompetitionUsers.has(username));
+        return Array.from(this.connectedUsers.keys());
     }
 
     getSocketIdByUsername(username) {
         /**
          * @returns {string | undefined}
          */
-        for (const [socketId, user] of this.connectedUsers) {
-            if (user === username) {
-                return socketId;
+        for (const [key, value] of this.connectedUsers) {
+            if (key === username) {
+                return value;
             }
         }
     }

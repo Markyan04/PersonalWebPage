@@ -1,9 +1,7 @@
 import { io } from "https://cdn.socket.io/4.7.2/socket.io.esm.min.js";
 
 const socket = io({
-    reconnection: true,
-    reconnectionAttempts: 5,
-    reconnectionDelay: 1000,
+    reconnection: false,
     auth: {
         username: localStorage.getItem('username')
     }

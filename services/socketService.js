@@ -14,14 +14,28 @@ class SocketService {
         return SocketService.instance;
     }
 
-    addUser(socketId, username) {
+    queryUser(username, socketId) {
         if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.username === username)) {
             return {
                 success: false,
                 message: 'Username already exists'
             };
         }
-        this.userList.addUser(socketId, username);
+        else {
+            return {
+                success: true,
+                message: 'Username available'
+            };
+        }
+    }
+
+    addOrUpdateUser(socketId, username) {
+        if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.username === username)) {
+            this.userList.updateUser(socketId, username);
+        }
+        else {
+            this.userList.addUser(socketId, username);
+        }
         console.log(`User has connected: ${username}, ${socketId} (Total: ${this.userList.getConnectedUsers().length})`);
         return {
             success: true,
@@ -29,11 +43,9 @@ class SocketService {
         };
     }
 
-    removeUser(socketId) {
-        if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.socketId === socketId)) {
-            const username = this.userList.getConnectedUserSocketIdsWithName()
-                    .find(u => u.socketId === socketId).username;
-            this.userList.removeUser(socketId);
+    removeUser(socketId, username) {
+        if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.username === username)) {
+            this.userList.removeUser(socketId, username);
             console.log(`User has disconnected: ${username}, ${socketId} (Remainder: ${this.userList.getConnectedUsers().length})`);
             return {
                 success: true,

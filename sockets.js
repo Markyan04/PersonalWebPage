@@ -4,11 +4,7 @@ import SocketController from './controllers/socketController.js';
 let io;
 
 export function init(server) {
-    io = new Server(server, {
-        connectionStateRecovery: {
-            maxDisconnectionDuration: 2 * 60 * 1000
-        }
-    });
+    io = new Server(server, );
 
     const controller = new SocketController(io);
 

@@ -1,5 +1,5 @@
-import { socket } from './socket/index.js';
-import { PageManager } from "./utils/page.js";
+import {socket} from './socket/index.js';
+import {PageManager} from "./utils/page.js";
 import Timer from "./utils/timer.js";
 
 let localStorageOnlinePlayers = [];
@@ -7,8 +7,8 @@ let localStorageChallengers = [];
 
 const logout = () => {
     localStorage.removeItem("username");
+    socket.emit('logout');
     window.location.href = "/login";
-    socket.emit('disconnect');
 }
 
 const startMatching = (targetPlayer) => {
@@ -167,13 +167,12 @@ const registerMatchingEvents = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const username = localStorage.getItem("username") || "Unknown";
-    document.getElementById("current-user-name").textContent = username;
+    document.getElementById("current-user-name").textContent = localStorage.getItem('username');
     document.querySelector('.logout-button').addEventListener('click', logout);
     document.querySelector('.href-link').addEventListener('click', logout);
 
     PageManager.initState();
-    socket.emit('connected', username);
+    socket.emit('firstConnected');
 
     registerMatchingEvents();
 
