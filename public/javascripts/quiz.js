@@ -1,4 +1,5 @@
 import { socket } from './socket/index.js';
+import Timer from './utils/timer.js';
 
 let currentQuestionIndex = 0;
 let currentSelectionIndex = null;
@@ -11,6 +12,18 @@ const winAndGetPoint = "You are correct and faster than your opponent.";
 const wrongAndNoPoint = "You are faster but you are wrong.";
 const slowAndNoPoint = "Your opponent is faster and he is correct.";
 const slowAndGetPoint = "Your opponent is faster but he is wrong.";
+let questionTimer = new Timer(30, () => {
+    if (currentSelectionIndex !== null) {
+        uploadAnswer();
+    }
+    else {
+        socket.emit('uploadAnswer', {
+            answer: null,
+            quizId: localStorage.getItem('quizId'),
+        })
+        uploadAnswerButNoResultState();
+    }
+});
 
 const readyPageInit = () => {
     document.querySelector('.test-part').style.display = 'none';
@@ -47,10 +60,16 @@ const beforeAnswerState = () => {
     document.getElementById('current-score').textContent = pointForThisQuestion;
     document.getElementById('total-score').textContent = currentPlayerTotalScore;
     document.getElementById('opponent-total-score').textContent = currentOpponentTotalScore;
+    questionTimer.reset();
+    questionTimer.onUpdate = (remaining) => {
+        document.getElementById('timer').textContent = remaining;
+    };
+    questionTimer.start();
 }
 
 const uploadAnswerButNoResultState = () => {
     document.querySelector('.upload-button').style.display = 'none';
+    document.querySelector('.operation-part').style.display = 'none';
     document.querySelector('.waiting-for-result').style.display = 'block';
 }
 
@@ -104,10 +123,12 @@ const uploadAnswer = () => {
         alert("Please select an answer");
         return;
     }
+    questionTimer.stop();
     socket.emit('uploadAnswer', {
         answer: currentSelectionIndex,
         quizId: localStorage.getItem('quizId'),
     })
+    uploadAnswerButNoResultState();
 }
 
 const registerQuizEvents = () => {
