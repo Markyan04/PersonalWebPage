@@ -16,14 +16,10 @@ class QuizService {
         return QuizService.instance;
     }
 
-    getSocketIdByUsername(username) {
-        return this.userList.getSocketIdByUsername(username);
-    }
-
     getQuestions(quizId) {
-        let quizInfo = QuizInfo.getQuizById(quizId);
-        if (quizInfo) {
-            let questionItem = quizInfo.getCurrentQuestion();
+        let quizEvent = QuizInfo.getQuizById(quizId);
+        if (quizEvent) {
+            let questionItem = quizEvent.getCurrentQuestion();
             return {
                 question: questionItem.text,
                 options: questionItem.options,
@@ -34,7 +30,7 @@ class QuizService {
         }
     }
 
-    updateReadiness(launchUsername, launchSocketId, receiveUsername, receiveSocketId, socket) {
+    async updateReadiness(launchUsername, launchSocketId, receiveUsername, receiveSocketId, socket) {
         const key = `${launchUsername}-${receiveUsername}`;
         
         if (!this.readinessPool[key]) {
@@ -56,11 +52,11 @@ class QuizService {
         }
 
         if (pool.launchReady && pool.receiveReady) {
-            const quizInfo = new QuizInfo(
-                launchUsername,
-                pool.launchSocketId,
-                receiveUsername,
-                pool.receiveSocketId
+            const quizInfo = await QuizInfo.createQuiz(
+                    launchUsername,
+                    pool.launchSocketId,
+                    receiveUsername,
+                    pool.receiveSocketId
             );
             delete this.readinessPool[key];
             return {

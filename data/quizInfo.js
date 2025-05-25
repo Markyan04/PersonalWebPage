@@ -1,4 +1,10 @@
 import crypto from 'crypto';
+import { readFile } from 'fs/promises';
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 class QuizInfo {
     static allQuizzes = [];
@@ -10,7 +16,10 @@ class QuizInfo {
         this.quizCreatorSocketId = quizCreatorSocketId;
         this.quizReceiver = quizReceiver;
         this.quizReceiverSocketId = quizReceiverSocketId;
-        this.questions = QuizInfo.loadQuestions();
+        this.questions = [];
+        QuizInfo.loadQuestions().then(questions => {
+            this.questions = questions;
+        });
         this.currentQuestionIndex = 0;
         this.scoreByQuestion = [];
         this.totalScores = {
@@ -20,14 +29,26 @@ class QuizInfo {
         QuizInfo.allQuizzes.push(this);
     }
 
-    static loadQuestions() {
-        const questions = require('./question.json');
-        return questions.map(q => ({
-            text: q.text,
-            options: q.options,
-            answer: q.answer,
-            answerIndex: q.answerIndex
-        }));
+    static async createQuiz(quizCreator, quizCreatorSocketId, quizReceiver, quizReceiverSocketId) {
+        const instance = new QuizInfo(quizCreator, quizCreatorSocketId, quizReceiver, quizReceiverSocketId);
+        instance.questions = await QuizInfo.loadQuestions();
+        return instance;
+    }
+
+    static async loadQuestions() {
+        try {
+            const filePath = path.join(__dirname, 'question.json');
+            const data = await readFile(filePath, 'utf8');
+            return JSON.parse(data).map(q => ({
+                text: q.text,
+                options: q.options,
+                answer: q.answer,
+                answerIndex: q.answerIndex
+            }));
+        } catch (error) {
+            console.error('Fail to load question list:', error);
+            return [];
+        }
     }
 
     static generateQuizId() {

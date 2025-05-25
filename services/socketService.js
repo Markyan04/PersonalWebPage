@@ -59,6 +59,10 @@ class SocketService {
     getOnlineUsers() {
         return this.userList.getOnlineUsers();
     }
+
+    getSocketIdByUsername(username) {
+        return this.userList.getSocketIdByUsername(username);
+    }
 }
 
 export default SocketService;
