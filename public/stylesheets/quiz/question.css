@@ -104,8 +104,46 @@
     box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
 }
 
+.option-item.correct {
+    background: #2ecc71;
+    border-color: #27ae60;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
+.option-item.wrong {
+    background: #e74c3c;
+    border-color: #c0392b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+}
+
 .option-item.selected::after {
     content: "✓";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.option-item.correct ::after {
+    content: "✓";
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.option-item.correct ::after {
+    content: "✗";
     position: absolute;
     right: 12px;
     top: 50%;
@@ -121,6 +159,18 @@
     transform: translateY(-2px) scale(1.02);
 }
 
+.option-item.correct:hover {
+    background: #2ecc71;
+    border-color: #27ae60;
+    transform: translateY(-2px) scale(1.02);
+}
+
+.option-item.wrong:hover {
+    background: #e74c3c;
+    border-color: #c0392b;
+    transform: translateY(-2px) scale(1.02);
+}
+
 .question-part > h1 {
     font-size: 1.8rem;
     color: #2c3e50;
@@ -131,7 +181,7 @@
 
 .operation-part {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     gap: 1.5rem;
     padding: 1rem 0;
     margin-top: 2rem;
@@ -139,13 +189,15 @@
 
 .upload-button,
 .ready-for-next-button {
-    flex: 1;
+    flex: 0;
+    width: 200px;
     padding: 12px 25px;
     border-radius: 8px;
     font-weight: 600;
     transition: all 0.3s ease;
     border: none;
     cursor: pointer;
+    margin: 0 auto;
 }
 
 .upload-button {
@@ -154,7 +206,7 @@
 }
 
 .ready-for-next-button {
-    background: linear-gradient(135deg, #2ecc71, #27ae60);
+    background: #2ecc71;
     color: white;
 }
 
@@ -166,6 +218,17 @@
 .ready-for-next-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+}
+
+.ready-for-next-button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ready-for-next-button:disabled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(167, 168, 168, 0.3);
 }
 
 @keyframes pulse {

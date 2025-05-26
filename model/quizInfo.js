@@ -17,9 +17,16 @@ class QuizInfo {
         this.quizReceiver = quizReceiver;
         this.quizReceiverSocketId = quizReceiverSocketId;
         this.questions = [];
-        QuizInfo.loadQuestions().then(questions => {
-            this.questions = questions;
-        });
+        this._questionLoadAbortController = new AbortController();
+        QuizInfo.loadQuestions(this._questionLoadAbortController.signal)
+                .then(questions => {
+                    this.questions = questions;
+                })
+                .catch(err => {
+                    if (err.name !== 'AbortError') {
+                        console.error('Question load error:', err);
+                    }
+                });
 
         this.currentQuestionIndex = 0;
         this.currentQuestionStartTime = null;
@@ -38,14 +45,17 @@ class QuizInfo {
 
     static async createQuiz(quizCreator, quizCreatorSocketId, quizReceiver, quizReceiverSocketId) {
         const instance = new QuizInfo(quizCreator, quizCreatorSocketId, quizReceiver, quizReceiverSocketId);
-        instance.questions = await QuizInfo.loadQuestions();
+        instance.questions = await QuizInfo.loadQuestions(instance._questionLoadAbortController.signal);
         return instance;
     }
 
-    static async loadQuestions() {
+    static async loadQuestions(signal) {
         try {
             const filePath = path.join(__dirname, '../data/question.json');
-            const data = await readFile(filePath, 'utf8');
+            const data = await readFile(filePath, {
+                encoding: 'utf8',
+                signal
+            });
             return JSON.parse(data).map(q => ({
                 text: q.text,
                 options: q.options,
@@ -74,6 +84,16 @@ class QuizInfo {
     static removeQuiz(quizId) {
         const index = QuizInfo.allQuizzes.findIndex(q => q.quizId === quizId);
         if (index !== -1) {
+            const quiz = QuizInfo.allQuizzes[index];
+
+            if (quiz._questionLoadAbortController) {
+                quiz._questionLoadAbortController.abort();
+            }
+
+            quiz.questions = null;
+            quiz.answers = null;
+            quiz.totalScores = null;
+
             QuizInfo.allQuizzes.splice(index, 1);
             QuizInfo.existingIds.delete(quizId);
         }
@@ -139,7 +159,6 @@ class QuizInfo {
 
     updateCurrentQuestionIndex() {
         this.currentQuestionIndex++;
-        this.currentQuestionStartTime = Date.now();
     }
 
     getCurrentQuestion() {
@@ -157,6 +176,17 @@ class QuizInfo {
     updateTotalScores(creatorScore, receiverScore) {
         this.totalScores.creator += creatorScore;
         this.totalScores.receiver += receiverScore;
+    }
+
+    answersInit() {
+        this.answers = {
+            creator: { answer: null, timestamp: null, isCorrect: false },
+            receiver: { answer: null, timestamp: null, isCorrect: false }
+        };
+    }
+
+    isQuizFinished() {
+        return this.currentQuestionIndex === this.questions.length - 1;
     }
 }
 

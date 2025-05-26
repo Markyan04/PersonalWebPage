@@ -16,7 +16,14 @@ class QuizService {
         return QuizService.instance;
     }
 
-    getQuestions(quizId) {
+    updateAndReInitQuizProcessInfo(quizId) {
+        this.updateQuestionIndex(quizId);
+        this.updateCurrentQuestionStartTime(quizId);
+        let quizEvent = QuizInfo.getQuizById(quizId);
+        quizEvent.answersInit();
+    }
+
+    getQuestionsNoAnswer(quizId) {
         let quizEvent = QuizInfo.getQuizById(quizId);
         if (quizEvent) {
             let questionItem = quizEvent.getCurrentQuestion();
@@ -34,7 +41,7 @@ class QuizService {
         return QuizInfo.getQuizById(quizId);
     }
 
-    updateCurrentQuestionIndex(quizId) {
+    updateQuestionIndex(quizId) {
         let quizEvent = QuizInfo.getQuizById(quizId);
         if (quizEvent) {
             quizEvent.updateCurrentQuestionIndex();
@@ -48,7 +55,7 @@ class QuizService {
         }
     }
 
-    async updateReadiness(launchUsername, launchSocketId, receiveUsername, receiveSocketId, socket) {
+    async updateReadiness(launchUsername, launchSocketId, receiveUsername, receiveSocketId, socket, quizId) {
         const key = `${launchUsername}-${receiveUsername}`;
         
         if (!this.readinessPool[key]) {
@@ -70,19 +77,38 @@ class QuizService {
         }
 
         if (pool.launchReady && pool.receiveReady) {
-            const quizInfo = await QuizInfo.createQuiz(
-                    launchUsername,
-                    pool.launchSocketId,
-                    receiveUsername,
-                    pool.receiveSocketId
-            );
-            delete this.readinessPool[key];
-            return {
-                ready: true,
-                quizId: quizInfo.quizId,
-                launchSocketId: pool.launchSocketId,
-                receiveSocketId: pool.receiveSocketId
-            };
+            if (quizId !== null) {
+                let quizItem = QuizInfo.getQuizById(quizId);
+                if (quizItem) {
+                    delete this.readinessPool[key];
+                    return {
+                        ready: true,
+                        quizId: quizId,
+                        launchSocketId: pool.launchSocketId,
+                        receiveSocketId: pool.receiveSocketId
+                    }
+                }
+                else {
+                    console.log("Quiz not found");
+                }
+            }
+            else {
+                // The Init state of a new quiz
+                const quizInfo = await QuizInfo.createQuiz(
+                        launchUsername,
+                        pool.launchSocketId,
+                        receiveUsername,
+                        pool.receiveSocketId
+                );
+                delete this.readinessPool[key];
+                return {
+                    ready: true,
+                    quizId: quizInfo.quizId,
+                    launchSocketId: pool.launchSocketId,
+                    receiveSocketId: pool.receiveSocketId
+                };
+            }
+
         }
         return { ready: false };
     }
@@ -124,7 +150,7 @@ class QuizService {
         }
     }
 
-    handleQuestionScores(quizId) {
+     handleQuestionScores(quizId) {
         const quizItem = QuizInfo.getQuizById(quizId);
         const scores = quizItem.processScores();
         quizItem.updateTotalScores(scores.creatorScore, scores.receiverScore);
@@ -138,24 +164,24 @@ class QuizService {
             }
         }
         if (scores.creatorScore === 2 && scores.receiverScore === 0) {
-            answerResult.creator.result = 'correct';
-            answerResult.receiver.result = 'late';
+            answerResult.creator.result = 'You are correct and faster than your opponent.';
+            answerResult.receiver.result = 'Your opponent is faster and he is correct.';
         }
         else if (scores.creatorScore === 0 && scores.receiverScore === 2) {
-            answerResult.creator.result = 'late';
-            answerResult.receiver.result = 'correct';
+            answerResult.creator.result = 'Your opponent is faster and he is correct.';
+            answerResult.receiver.result = 'You are correct and faster than your opponent.';
         }
         else if (scores.creatorScore === 1 && scores.receiverScore === 0) {
-            answerResult.creator.result = 'late but win';
-            answerResult.receiver.result = 'wrong';
+            answerResult.creator.result = 'Your opponent is faster but he is wrong.';
+            answerResult.receiver.result = 'You are faster but you are wrong.';
         }
         else if (scores.creatorScore === 0 && scores.receiverScore === 1) {
-            answerResult.creator.result = 'wrong';
-            answerResult.receiver.result = 'late but win';
+            answerResult.creator.result = 'You are faster but you are wrong.';
+            answerResult.receiver.result = 'Your opponent is faster but he is wrong.';
         }
         else if (scores.creatorScore === 0 && scores.receiverScore === 0) {
-            answerResult.creator.result = 'late';
-            answerResult.receiver.result = 'late';
+            answerResult.creator.result = 'Both sides exceeded the time limit';
+            answerResult.receiver.result = 'Both sides exceeded the time limit';
         }
 
         return {
@@ -177,7 +203,64 @@ class QuizService {
             },
             questionBody: questionWithAnswer
         }
+    }
 
+    checkIfQuizFinished(quizId) {
+        const quizItem = QuizInfo.getQuizById(quizId);
+        if (quizItem) {
+            return quizItem.isQuizFinished();
+        }
+    }
+
+    bothReadyToDeleteCheck(launchUsername, launchSocketId, receiveUsername, receiveSocketId, socket) {
+        const key = `${launchUsername}-${receiveUsername}`;
+
+        if (!this.readinessPool[key]) {
+            this.readinessPool[key] = {
+                launchReady: false,
+                receiveReady: false,
+                launchSocketId,
+                receiveSocketId,
+            };
+        }
+
+        const pool = this.readinessPool[key];
+        if (socket.id === launchSocketId) {
+            pool.launchReady = true;
+        }
+
+        if (socket.id === receiveSocketId) {
+            pool.receiveReady = true;
+        }
+
+        if (pool.launchReady && pool.receiveReady) {
+            delete this.readinessPool[key];
+            return {
+                ready: true,
+            };
+        }
+        else {
+            return {
+                ready: false,
+            };
+        }
+    }
+
+    quizDelete(quizId) {
+        const quizItem = QuizInfo.getQuizById(quizId);
+        let launchUsername = null;
+        let receiveUsername = null;
+        let launchSocketId = null;
+        let receiveSocketId = null;
+        if (quizItem) {
+            launchUsername = quizItem.quizCreator;
+            receiveUsername = quizItem.quizReceiver;
+            launchSocketId = quizItem.quizCreatorSocketId;
+            receiveSocketId = quizItem.quizReceiverSocketId;
+        }
+        QuizInfo.removeQuiz(quizId);
+        this.userList.removeOnCompetitionUser(launchSocketId, launchUsername);
+        this.userList.removeOnCompetitionUser(receiveSocketId, receiveUsername);
     }
 }
 

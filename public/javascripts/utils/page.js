@@ -7,7 +7,7 @@ class HallPageManager {
 
     static showMatchingPart = () => {
         document.querySelector('.before-matching-part').style.display = 'none';
-    document.querySelector('.in-matching-part').style.display = 'block';
+        document.querySelector('.in-matching-part').style.display = 'block';
     }
 
     static showMatchingList = () => {
@@ -59,7 +59,6 @@ class QuizPageManager {
     }
 
     static beforeAnswerState = () => {
-        document.querySelector('.option-item').classList.remove('option-item-selected');
         document.querySelector('.ready-for-next-button').style.display = 'none';
         document.querySelector('.upload-button').style.display = 'block';
         document.querySelector('.waiting-for-result').style.display = 'none';
@@ -70,6 +69,15 @@ class QuizPageManager {
         document.querySelector('.upload-button').style.display = 'none';
         document.querySelector('.operation-part').style.display = 'none';
         document.querySelector('.waiting-for-result').style.display = 'block';
+    }
+
+    static getResultState = () => {
+        document.querySelector('.operation-part').style.display = 'block';
+        document.querySelector('.ready-for-next-button').style.display = 'block';
+    }
+
+    static readyAgainForNextQuestion = () => {
+
     }
 }
 

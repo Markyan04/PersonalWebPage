@@ -11,10 +11,6 @@ let localReceiveUsername = '';
 let pointForThisQuestion = 'Unknown';
 const totalQuestions = 10;
 const onCompetitionText = "On competition and waiting for result.";
-const winAndGetPoint = "You are correct and faster than your opponent.";
-const wrongAndNoPoint = "You are faster but you are wrong.";
-const slowAndNoPoint = "Your opponent is faster and he is correct.";
-const slowAndGetPoint = "Your opponent is faster but he is wrong.";
 
 let questionTimer = new Timer(30, () => {
     if (currentSelectionIndex !== null) {
@@ -31,18 +27,60 @@ let questionTimer = new Timer(30, () => {
     }
 });
 
+const logout = () => {
+    localStorage.removeItem("username");
+    socket.emit('logout');
+    window.location.href = "/login";
+}
+
 const beforeAnswerStateResponsiveChange = () => {
+    currentSelectionIndex = null;
+    pointForThisQuestion = 'Unknown';
+    document.querySelector('.ready-for-next-button').disabled = false;
     document.getElementById('current-score').textContent = pointForThisQuestion;
     document.getElementById('total-score').textContent = currentPlayerTotalScore;
     document.getElementById('opponent-total-score').textContent = currentOpponentTotalScore;
-    document.querySelector('.progress-bar').style.width = `${(currentQuestionIndex + 1 / totalQuestions) * 100}%`;
+    document.querySelector('.progress-bar').style.width = `${((currentQuestionIndex + 1) / totalQuestions) * 100}%`;
     document.querySelector('.progress-text').textContent = `${currentQuestionIndex + 1}/${totalQuestions}`;
     document.querySelector('.result-text').textContent = onCompetitionText;
+    document.querySelectorAll('.option-item').forEach(optionItem => {
+        optionItem.classList.remove('selected');
+    })
     questionTimer.reset();
     questionTimer.onUpdate = (remaining) => {
         document.getElementById('timer').textContent = remaining;
     };
     questionTimer.start();
+}
+
+const afterReceiveResultResponsiveChange = (result) => {
+    document.querySelector('.waiting-for-result').children[0].textContent = 'The Answer is: ' + result.answer + '...';
+    document.querySelector('.waiting-for-result').children[1].textContent = ' ' + result.resultText;
+    document.querySelector('.result-text').textContent = result.resultText;
+    document.querySelector('.result-text').classList.remove('result-late');
+    document.querySelector('.result-text').classList.remove('result-correct');
+    document.querySelector('.result-text').classList.remove('result-wrong');
+    if (parseInt(result.currentQuestionScore) === 2) {
+        document.querySelector('.result-text').classList.add('result-correct');
+    }
+    else if (parseInt(result.currentQuestionScore) === 1) {
+        document.querySelector('.result-text').classList.add('result-correct');
+    }
+    else if (parseInt(result.currentQuestionScore) === 0) {
+        if (result.resultText === 'You are faster but you are wrong.') {
+            document.querySelector('.result-text').classList.add('result-wrong');
+        }
+        else {
+            document.querySelector('.result-text').classList.add('result-late');
+        }
+    }
+
+    document.getElementById('current-score').textContent = result.currentQuestionScore;
+    pointForThisQuestion = result.currentQuestionScore.toString();
+    document.getElementById('total-score').textContent = result.totalScore;
+    currentPlayerTotalScore = result.totalScore.toString();
+    document.getElementById('opponent-total-score').textContent = result.opponentTotalScore;
+    currentOpponentTotalScore = result.opponentTotalScore.toString();
 }
 
 const clickOption = (index, optionItem) => {
@@ -68,7 +106,8 @@ const renderQuestion = (questionInfo) => {
     questionInfo.options.forEach((option, index) => {
         let optionItem = document.getElementById(`option-item-${index + 1}`)
         optionItem.textContent = option;
-        optionItem.addEventListener('click', () => clickOption(index, optionItem))
+        optionItem.clickHandler = () => clickOption(index, optionItem)
+        optionItem.addEventListener('click', optionItem.clickHandler)
     })
 }
 
@@ -103,6 +142,25 @@ const uploadAnswer = () => {
         quizId: localStorage.getItem('quizId'),
     })
     QuizPageManager.uploadAnswerButNoResultState();
+    document.querySelectorAll('.option-item').forEach(item => {
+        item.removeEventListener('click', item.clickHandler)
+        item.clickHandler = null;
+    })
+}
+
+const readyForNext = () => {
+    QuizPageManager.readyAgainForNextQuestion();
+    document.querySelector('.ready-for-next-button').disabled = true;
+    document.querySelector('.waiting-for-result').children[0].textContent
+            = 'Waiting for opponent response';
+    document.querySelector('.waiting-for-result').children[1].textContent
+            = 'Please wait for about few seconds...';
+    socket.emit('ready', {
+        launchUsername: localLaunchUsername,
+        receiveUsername: localReceiveUsername,
+        quizId: localStorage.getItem('quizId'),
+    })
+    currentQuestionIndex++;
 }
 
 const registerQuizEvents = () => {
@@ -120,9 +178,14 @@ const registerQuizEvents = () => {
     })
 
     socket.on('result', ({ launchUsername, receiveUsername, result, quizId }) => {
-        alert(result);
-        console.log("Result received");
+        QuizPageManager.getResultState();
+        afterReceiveResultResponsiveChange(result);
     });
+
+    socket.on('quizFinished', ({ launchUsername, receiveUsername, quizId }) => {
+        console.log("Quiz finished");
+        alert("Quiz finished");
+    })
 
     socket.on('authSuccess', (username) => {
         const loading = document.getElementById('initial-loading');
@@ -191,6 +254,8 @@ document.addEventListener('DOMContentLoaded', () => {
         localReceiveUsername = receiveUsername;
     }
 
+    document.querySelector('.href-link').addEventListener('click', logout);
+
     document.getElementById('start-button')
             .addEventListener('click', () => {
                 startQuiz(launchUsername, receiveUsername);
@@ -198,4 +263,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('upload-button')
             .addEventListener('click', () => uploadAnswer())
+
+    document.getElementById('ready-for-next-button')
+            .addEventListener('click', () => readyForNext())
 })
