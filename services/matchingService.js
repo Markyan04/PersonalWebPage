@@ -1,4 +1,4 @@
-import UserList from '../data/userList.js';
+import UserList from '../model/userList.js';
 
 class MatchingService {
     static instance = null;

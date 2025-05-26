@@ -1,5 +1,5 @@
 import { socket } from './socket/index.js';
-import { PageManager } from "./utils/page.js";
+import { HallPageManager } from "./utils/page.js";
 import Timer from "./utils/timer.js";
 
 let localStorageOnlinePlayers = [];
@@ -18,7 +18,7 @@ const startMatching = (targetPlayer) => {
         launchUsername: currentUser,
         receiveUsername: targetPlayer
     });
-    PageManager.showMatchingPart();
+    HallPageManager.showMatchingPart();
 };
 
 const acceptMatching = (challenger) => {
@@ -46,7 +46,7 @@ const refuseMatching = (challenger) => {
     });
 
     deleteChallenger(challenger);
-    PageManager.showMatchingList();
+    HallPageManager.showMatchingList();
 }
 
 const addChallenger = (challenger) => {
@@ -63,10 +63,10 @@ const renderChallengers = () => {
     const matchingWaitingList = document.querySelector('.matching-waiting-list');
     matchingWaitingList.innerHTML = '';
     if (localStorageChallengers.length === 0) {
-        PageManager.showNobodyWaiting();
+        HallPageManager.showNobodyWaiting();
     }
     else {
-        PageManager.showWaitingResponse();
+        HallPageManager.showWaitingResponse();
         localStorageChallengers.forEach((challenger, index) => {
             const waitingItem = document.createElement('div');
             waitingItem.className = 'waiting-item';
@@ -120,7 +120,7 @@ const updateOnlinePlayers = (onlinePlayers) => {
 }
 
 const matchingSuccess = (launchUsername, receiveUsername) => {
-    PageManager.showMatchingSuccess();
+    HallPageManager.showMatchingSuccess();
     const countdownElement = document.getElementById('matching-countdown');
     const redirectTimer = new Timer(3, () => {
         window.location.href = "/quiz?launchUsername=" + launchUsername + "&receiveUsername=" + receiveUsername;
@@ -214,12 +214,12 @@ const registerMatchingEvents = () => {
 
     socket.on('applyRefusePhase2', ({ launchUsername, receiveUsername }) => {
         confirm(`The player ${launchUsername} refused your matching request`);
-        PageManager.showMatchingList();
+        HallPageManager.showMatchingList();
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    PageManager.initState();
+    HallPageManager.initState();
     document.getElementById("current-user-name").textContent = localStorage.getItem('username');
     document.querySelector('.logout-button').addEventListener('click', logout);
     document.querySelector('.href-link').addEventListener('click', logout);
@@ -232,6 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
             launchUsername: localStorage.getItem('username'),
             receiveUsername: document.getElementById('matching-player-1').textContent
         });
-        PageManager.showMatchingList();
+        HallPageManager.showMatchingList();
     });
 });

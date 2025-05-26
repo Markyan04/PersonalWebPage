@@ -1,10 +1,13 @@
 import { socket } from './socket/index.js';
 import Timer from './utils/timer.js';
+import { QuizPageManager } from "./utils/page.js";
 
 let currentQuestionIndex = 0;
 let currentSelectionIndex = null;
 let currentPlayerTotalScore = '0';
 let currentOpponentTotalScore = '0';
+let localLaunchUsername = '';
+let localReceiveUsername = '';
 let pointForThisQuestion = 'Unknown';
 const totalQuestions = 10;
 const onCompetitionText = "On competition and waiting for result.";
@@ -12,65 +15,34 @@ const winAndGetPoint = "You are correct and faster than your opponent.";
 const wrongAndNoPoint = "You are faster but you are wrong.";
 const slowAndNoPoint = "Your opponent is faster and he is correct.";
 const slowAndGetPoint = "Your opponent is faster but he is wrong.";
+
 let questionTimer = new Timer(30, () => {
     if (currentSelectionIndex !== null) {
         uploadAnswer();
     }
     else {
         socket.emit('uploadAnswer', {
+            launchUsername: localLaunchUsername,
+            receiveUsername: localReceiveUsername,
             answer: null,
             quizId: localStorage.getItem('quizId'),
         })
-        uploadAnswerButNoResultState();
+        QuizPageManager.uploadAnswerButNoResultState();
     }
 });
 
-const readyPageInit = () => {
-    document.querySelector('.test-part').style.display = 'none';
-    document.querySelector('.ready-part').style.display = 'block';
-    document.querySelector('.ready-text-after').style.display = 'none';
-    document.querySelector('.ready-text-before').style.display = 'block';
-    document.querySelector('.start-button').classList.add('start-button-before');
-    document.querySelector('.start-button').classList.remove('start-button-after');
-}
-
-const readyButtonClick = () => {
-    document.querySelector('.test-part').style.display = 'none';
-    document.querySelector('.ready-part').style.display = 'block';
-    document.querySelector('.ready-text-after').style.display = 'block';
-    document.querySelector('.ready-text-before').style.display = 'none';
-    document.querySelector('.start-button').classList.add('start-button-after');
-    document.querySelector('.start-button').classList.remove('start-button-before');
-}
-
-const enterTestPage = () => {
-    document.querySelector('.test-part').style.display = 'block';
-    document.querySelector('.ready-part').style.display = 'none';
-}
-
-const beforeAnswerState = () => {
-    document.querySelector('.option-item').classList.remove('option-item-selected');
-    document.querySelector('.ready-for-next-button').style.display = 'none';
-    document.querySelector('.upload-button').style.display = 'block';
-    document.querySelector('.waiting-for-result').style.display = 'none';
-    document.querySelector('.progress-bar').style.width = `${(currentQuestionIndex + 1 / totalQuestions) * 100}%`;
-    document.querySelector('.progress-text').textContent = `${currentQuestionIndex + 1}/${totalQuestions}`;
-    document.querySelector('.result-text').textContent = onCompetitionText;
-    document.querySelector('.result-text').classList.add('result-late');
+const beforeAnswerStateResponsiveChange = () => {
     document.getElementById('current-score').textContent = pointForThisQuestion;
     document.getElementById('total-score').textContent = currentPlayerTotalScore;
     document.getElementById('opponent-total-score').textContent = currentOpponentTotalScore;
+    document.querySelector('.progress-bar').style.width = `${(currentQuestionIndex + 1 / totalQuestions) * 100}%`;
+    document.querySelector('.progress-text').textContent = `${currentQuestionIndex + 1}/${totalQuestions}`;
+    document.querySelector('.result-text').textContent = onCompetitionText;
     questionTimer.reset();
     questionTimer.onUpdate = (remaining) => {
         document.getElementById('timer').textContent = remaining;
     };
     questionTimer.start();
-}
-
-const uploadAnswerButNoResultState = () => {
-    document.querySelector('.upload-button').style.display = 'none';
-    document.querySelector('.operation-part').style.display = 'none';
-    document.querySelector('.waiting-for-result').style.display = 'block';
 }
 
 const clickOption = (index, optionItem) => {
@@ -110,7 +82,7 @@ const getUrlParams = () => {
 };
 
 const startQuiz = (launchUsername, receiveUsername) => {
-    readyButtonClick();
+    QuizPageManager.readyButtonClick();
     socket.emit('ready', {
         launchUsername: launchUsername,
         receiveUsername: receiveUsername,
@@ -125,10 +97,12 @@ const uploadAnswer = () => {
     }
     questionTimer.stop();
     socket.emit('uploadAnswer', {
+        launchUsername: localLaunchUsername,
+        receiveUsername: localReceiveUsername,
         answer: currentSelectionIndex,
         quizId: localStorage.getItem('quizId'),
     })
-    uploadAnswerButNoResultState();
+    QuizPageManager.uploadAnswerButNoResultState();
 }
 
 const registerQuizEvents = () => {
@@ -139,10 +113,16 @@ const registerQuizEvents = () => {
     socket.on('question', ({ launchUsername, receiveUsername, questionInfo, quizId }) => {
         console.log("Question received");
         localStorage.setItem('quizId', quizId);
-        enterTestPage();
+        QuizPageManager.enterTestPage();
         renderQuestion(questionInfo);
-        beforeAnswerState();
+        QuizPageManager.beforeAnswerState();
+        beforeAnswerStateResponsiveChange();
     })
+
+    socket.on('result', ({ launchUsername, receiveUsername, result, quizId }) => {
+        alert(result);
+        console.log("Result received");
+    });
 
     socket.on('authSuccess', (username) => {
         const loading = document.getElementById('initial-loading');
@@ -201,11 +181,15 @@ const registerQuizEvents = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    readyPageInit();
+    QuizPageManager.readyPageInit();
     socket.emit('quizConnected');
     registerQuizEvents();
 
     const { launchUsername, receiveUsername } = getUrlParams();
+    if (launchUsername && receiveUsername) {
+        localLaunchUsername = launchUsername;
+        localReceiveUsername = receiveUsername;
+    }
 
     document.getElementById('start-button')
             .addEventListener('click', () => {
