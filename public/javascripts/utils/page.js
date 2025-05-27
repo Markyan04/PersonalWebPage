@@ -37,6 +37,7 @@ class QuizPageManager {
 
     static readyPageInit = () => {
         document.querySelector('.test-part').style.display = 'none';
+        document.querySelector('.final-result-part').style.display = 'none';
         document.querySelector('.ready-part').style.display = 'block';
         document.querySelector('.ready-text-after').style.display = 'none';
         document.querySelector('.ready-text-before').style.display = 'block';
@@ -77,7 +78,12 @@ class QuizPageManager {
     }
 
     static readyAgainForNextQuestion = () => {
+        console.log('ready again');
+    }
 
+    static showFinalResult = () => {
+        document.querySelector('.test-part').style.display = 'none';
+        document.querySelector('.final-result-part').style.display = 'block';
     }
 }
 

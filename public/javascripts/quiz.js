@@ -163,6 +163,45 @@ const readyForNext = () => {
     currentQuestionIndex++;
 }
 
+const resultShow = () => {
+    let finalResultText = document.querySelector('.final-result-text');
+    finalResultText.classList.remove('final-result-text-win')
+    finalResultText.classList.remove('final-result-text-lose')
+    finalResultText.classList.remove('final-result-text-draw')
+    if (currentPlayerTotalScore > currentOpponentTotalScore) {
+        finalResultText.textContent = 'You are win!';
+        finalResultText.classList.add('final-result-text-win')
+    }
+    else if (currentPlayerTotalScore < currentOpponentTotalScore) {
+        finalResultText.textContent = 'You are lose!';
+        finalResultText.classList.add('final-result-text-lose')
+    }
+    else {
+        finalResultText.textContent = 'You are draw!';
+        finalResultText.classList.add('final-result-text-draw')
+    }
+    document.getElementById('final-total-score').textContent = currentPlayerTotalScore;
+    document.getElementById('final-opponent-total-score').textContent = currentOpponentTotalScore;
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = '/hall';
+    })
+}
+
+const interruptionResultShow = () => {
+    let finalResultText = document.querySelector('.final-result-text');
+    finalResultText.classList.remove('final-result-text-win')
+    finalResultText.classList.remove('final-result-text-lose')
+
+    finalResultText.textContent = 'Quiz Interrupt! Your opponent is offline!';
+    finalResultText.classList.add('final-result-text-draw')
+
+    document.getElementById('final-total-score').textContent = currentPlayerTotalScore;
+    document.getElementById('final-opponent-total-score').textContent = currentOpponentTotalScore;
+    document.getElementById('back-button').addEventListener('click', () => {
+        window.location.href = '/hall';
+    })
+}
+
 const registerQuizEvents = () => {
     socket.on('waitingForPartner', ({ launchUsername, receiveUsername }) => {
         console.log("Waiting for partner");
@@ -182,9 +221,18 @@ const registerQuizEvents = () => {
         afterReceiveResultResponsiveChange(result);
     });
 
+    socket.on('quizInterruption', ({ quizId }) => {
+        if (localStorage.getItem('quizId') === quizId) {
+            QuizPageManager.showFinalResult();
+            interruptionResultShow();
+            questionTimer.stop();
+        }
+    })
+
     socket.on('quizFinished', ({ launchUsername, receiveUsername, quizId }) => {
         console.log("Quiz finished");
-        alert("Quiz finished");
+        QuizPageManager.showFinalResult();
+        resultShow();
     })
 
     socket.on('authSuccess', (username) => {

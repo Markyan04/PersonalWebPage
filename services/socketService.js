@@ -44,6 +44,7 @@ class SocketService {
     removeUser(socketId, username) {
         if (this.userList.getConnectedUserSocketIdsWithName().some(u => u.username === username)) {
             this.userList.removeUser(socketId, username);
+            this.userList.removeOnCompetitionUser(socketId, username);
             console.log(`User has disconnected: ${username}, ${socketId} (Remainder: ${this.userList.getConnectedUsers().length})`);
             return {
                 success: true,

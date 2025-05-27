@@ -9,28 +9,11 @@
     <link rel="stylesheet" href="/stylesheets/quiz/ready.css">
     <link rel="stylesheet" href="/stylesheets/quiz/question.css">
     <link rel="stylesheet" href="/stylesheets/quiz/status.css">
+    <link rel="stylesheet" href="/stylesheets/quiz/result.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
 </head>
 <body>
-<div id="initial-loading" style="
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;">
-    <div class="loading-spinner"></div>
-    <p>Connecting With WebSocket...</p>
-</div>
-<script>
-    document.body.style.visibility = 'hidden';
-</script>
 <nav class="navigation-part">
     <div class="logo">
         <img src="/images/avatar.png" alt="Logo" class="logo-image">
@@ -137,6 +120,25 @@
             </div>
         </div>
     </div>
+    <div class="final-result-part">
+        <h1>Final Result</h1>
+        <div class="final-result-text">
+            You are the winner!
+        </div>
+        <div class="final-score-part-win">
+            <div class="final-score-item">
+                <span class="final-score-title">Your total score:</span>
+                <span class="final-score-value" id="final-total-score">0</span>
+            </div>
+            <div class="final-score-item">
+                <span class="final-score-title">Opponent's total score:</span>
+                <span class="final-score-value" id="final-opponent-total-score">0</span>
+            </div>
+        </div>
+        <button class="back-button" id="back-button">
+            Back to Matching Hall
+        </button>
+    </div>
 </div>
 <div class="footer-part">
     <div class="footer-text">
@@ -153,11 +155,6 @@
         </div>
     </div>
 </div>
-<script>
-    window.addEventListener('load', () => {
-        document.body.style.visibility = 'visible';
-    });
-</script>
 <script type="module" src="/javascripts/quiz.js"></script>
 </body>
 </html>

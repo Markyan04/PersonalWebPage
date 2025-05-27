@@ -41,6 +41,15 @@ class QuizService {
         return QuizInfo.getQuizById(quizId);
     }
 
+    getQuizIdByUsername(username) {
+        for (const quiz in QuizInfo.allQuizzes) {
+            if (QuizInfo.allQuizzes[quiz].quizCreator === username || QuizInfo.allQuizzes[quiz].quizReceiver === username) {
+                return QuizInfo.allQuizzes[quiz].quizId;
+            }
+        }
+        return null;
+    }
+
     updateQuestionIndex(quizId) {
         let quizEvent = QuizInfo.getQuizById(quizId);
         if (quizEvent) {
@@ -261,6 +270,12 @@ class QuizService {
         QuizInfo.removeQuiz(quizId);
         this.userList.removeOnCompetitionUser(launchSocketId, launchUsername);
         this.userList.removeOnCompetitionUser(receiveSocketId, receiveUsername);
+        return {
+            launchUsername: launchUsername,
+            receiveUsername: receiveUsername,
+            launchSocketId: launchSocketId,
+            receiveSocketId: receiveSocketId,
+        }
     }
 }
 
