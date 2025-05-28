@@ -1,0 +1,124 @@
+.project-card-container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+    margin-top: 1.5rem;
+}
+
+.project-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 0 0.8rem 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #24292f;
+    line-height: 1.25;
+}
+
+.project-stats {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #57606a;
+    font-size: 0.9rem;
+}
+
+.stat-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.project-description {
+    color: #5a5e63;
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    color: #2188ff;
+    text-decoration: none;
+    margin-bottom: 1.2rem;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+.code-composition {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.code-pie {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: conic-gradient(
+            #3572a5 0% 35%,    /* 示例颜色 */
+            #e34c26 35% 65%,   /* 根据实际比例调整 */
+            #563d7c 65% 100%
+    );
+    position: relative;
+    animation: pieRotate 2s ease-in-out;
+}
+
+@keyframes pieRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.lang-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.lang-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.lang-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+}
+
+@media (max-width: 1000px) {
+    .code-composition {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .project-stats {
+        gap: 0.8rem;
+    }
+
+    .stat-item {
+        font-size: 0.8rem;
+    }
+}

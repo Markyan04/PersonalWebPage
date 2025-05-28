@@ -1,0 +1,39 @@
+.tab-nav {
+    display: flex;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 20px;
+}
+
+.tab-item {
+    padding: 12px 30px;
+    cursor: pointer;
+    color: #666;
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border: none;
+    background: none;
+}
+
+.tab-item::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #3498db;
+    transition: width 0.3s ease;
+}
+
+.tab-item:hover {
+    color: #2c3e50;
+}
+
+.tab-item.active {
+    color: #3498db;
+}
+
+.tab-item.active::after {
+    width: 100%;
+}

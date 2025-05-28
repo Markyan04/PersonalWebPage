@@ -168,11 +168,11 @@ const resultShow = () => {
     finalResultText.classList.remove('final-result-text-win')
     finalResultText.classList.remove('final-result-text-lose')
     finalResultText.classList.remove('final-result-text-draw')
-    if (currentPlayerTotalScore > currentOpponentTotalScore) {
+    if (parseInt(currentPlayerTotalScore) > parseInt(currentOpponentTotalScore)) {
         finalResultText.textContent = 'You are win!';
         finalResultText.classList.add('final-result-text-win')
     }
-    else if (currentPlayerTotalScore < currentOpponentTotalScore) {
+    else if (parseInt(currentPlayerTotalScore) < parseInt(currentOpponentTotalScore)) {
         finalResultText.textContent = 'You are lose!';
         finalResultText.classList.add('final-result-text-lose')
     }

@@ -1,0 +1,52 @@
+.tech-stack-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tech-stack-desc {
+    border-bottom: 2px solid #f0f4f8;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.tech-stack-desc h3 {
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+.tech-stack-desc p {
+    color: #7f8c8d;
+    font-size: 0.95em;
+}
+
+.tech-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 20px;
+}
+
+.tech-stack-item {
+    text-align: center;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.tech-stack-item:hover {
+    background: #f8f9fa;
+    transform: translateY(-3px);
+}
+
+.tech-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+.tech-stack-item div {
+    color: #2c3e50;
+    font-size: 0.9em;
+}

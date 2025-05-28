@@ -1,0 +1,33 @@
+/* Structure styles */
+.about-root {
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+.left-content-box {
+    width: 65%;
+}
+
+.right-content-box {
+    width: 35%;
+}
+
+.about-text {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+@media screen and (max-width: 1000px) {
+    .left-content-box,
+    .right-content-box {
+        width: 100%;
+    }
+
+    .right-content-box {
+        display: none;
+    }
+}
