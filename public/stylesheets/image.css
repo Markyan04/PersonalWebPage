@@ -1,4 +1,3 @@
-/* Styles for the image section  */
 .image-part {
   position: relative;
   width: 100vw;
@@ -20,7 +19,6 @@
   filter: brightness(0.9);
 }
 
-/* Styles for the text section */
 .banner-overlay {
   position: absolute;
   top: 0;

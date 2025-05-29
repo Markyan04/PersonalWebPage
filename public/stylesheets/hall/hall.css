@@ -1,4 +1,3 @@
-/* Main container style */
 .hall-root {
     display: flex;
     flex-direction: column;
@@ -7,7 +6,6 @@
     min-height: calc(100vh - 180px);
 }
 
-/* Quiz part style */
 .quiz-part {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -40,7 +40,6 @@
     text-decoration: underline;
 }
 
-
 @media (max-width: 1000px) {
     .error-content {
         padding: 25px;
