@@ -40,7 +40,6 @@ function generateCodePie(projectCard, data) {
     const codePie = projectCard.querySelector('.code-pie');
     const langLegend = projectCard.querySelector('.lang-legend');
 
-    // 生成 conic-gradient
     let gradient = [];
     let accumulated = 0;
     data.percentages.forEach((percent, index) => {
@@ -49,7 +48,6 @@ function generateCodePie(projectCard, data) {
     });
     codePie.style.background = `conic-gradient(${gradient.join(', ')})`;
 
-    // 生成图例
     langLegend.innerHTML = data.languages.map((lang, index) => `
             <div class="lang-item">
                 <div class="lang-color" style="background: ${data.colors[index]}"></div>
