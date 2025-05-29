@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 import { readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -71,7 +71,7 @@ class QuizInfo {
     static generateQuizId() {
         let newId;
         do {
-            newId = crypto.randomUUID();
+            newId = uuidv4();
         } while (QuizInfo.existingIds.has(newId));
         QuizInfo.existingIds.add(newId);
         return newId;
