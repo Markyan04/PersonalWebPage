@@ -2,62 +2,61 @@
 
 ## 1. Introduction and Project Structure
 Foreword: If you need to test whether the function of my quiz module is normal, please use two browsers for the test. Because I have stored the user and competition information in `localStorage`, using the same browser client will cause the content of `localStorage` to be overwritten.
-This Web application adopts the MVC software architecture. Its file structure, as well as the functions of each file and folder, are as follows:
-
+This Web application adopts the MVC software architecture. You can visit the repository on Github, `https://github.com/Markyan04/PersonalWebPage`. Its file structure, as well as the functions of each file and folder, are as follows:
 ```
 WebAssignment/
 ├── bin/
 │   └── www.js               	# Server startup entry
-├── controllers/			 	# The controller layer of the back-end application
+├── controllers/	        # The controller layer of the back-end application
 │   ├── matchingController.js
 │   ├── quizController.js   	
 │   └── socketController.js
-├── data/						# The persistent storage layer of the back end application
+├── data/		        # The persistent storage layer of the back end application
 │   └── question.json        	
-├── model/						# The model layer of the back end application
+├── model/			# The model layer of the back end application
 │   ├── quizInfo.js           
 │   └── userList.js           
-├── public/						# Public resources
-│   ├── images/        	       	# Picture resources
-│   ├── javascripts/			# Front-end responsive page JS script		
+├── public/			# Public resources
+│   ├── images/        	        # Picture resources
+│   ├── javascripts/		# Front-end responsive page JS script		
 │   │   ├── hall.js           
 │   │   ├── quiz.js   
 │   │   ├── login.js
 │   │   ├── about.js         
-│   │   ├── utils/				# Front-end JS tool classes      
-│   │   └── socket/				# Front-end socket.io client JS script 
-│   └── stylesheets/			# Style resource			
-│       ├── hall/             	# Style of Matching Hall
+│   │   ├── utils/		# Front-end JS tool classes      
+│   │   └── socket/		# Front-end socket.io client JS script 
+│   └── stylesheets/	        # Style resource			
+│       ├── hall/               # Style of Matching Hall
 │       ├── quiz/             	# Style of Quiz Page
-│       ├── about/				# Style of About Page
-│       ├── introduction/		# Style of Introduction Page
-│       ├── login/				# Style of Login Page
-│       ├── error.css			# Style of Error Page
+│       ├── about/		# Style of About Page
+│       ├── introduction/	# Style of Introduction Page
+│       ├── login/		# Style of Login Page
+│       ├── error.css		# Style of Error Page
 │       ├── image.css			
 │       ├── loading.css			
-│       └── base.css 			# Basic Style of Front-end Application
-├── routes/						# Routes Management of the back-end application
+│       └── base.css 		# Basic Style of Front-end Application
+├── routes/			# Routes Management of the back-end application
 │   ├── hall.js               
 │   ├── login.js              
 │   ├── quiz.js 
 │   ├── intro.js
 │   └── about.js              
-├── services/					# The service layer of the back-end application
+├── services/			# The service layer of the back-end application
 │   ├── matchingService.js    
 │   ├── quizService.js        
 │   └── socketService.js      
-├── views/						# The view layer of the front-end application
+├── views/			# The view layer of the front-end application
 │   ├── hall.html             
 │   ├── login.html    
 │   ├── intro.html 
 │   ├── quiz.html            
 │   ├── about.html            
 │   └── error.html            
-├── app.js                    # Express application instance configuration
-├── sockets.js                # Server configuration of socket.io
-├── package.json              # Project Dependency Management
-├── .gitignore          	  # The Management of git ignore files
-└── .env                      # Environment variable configuration
+├── app.js                      # Express application instance configuration
+├── sockets.js                  # Server configuration of socket.io
+├── package.json                # Project Dependency Management
+├── .gitignore                  # The Management of git ignore files
+└── .env                        # Environment variable configuration
 ```
 
 ## 2. Introduction Part
