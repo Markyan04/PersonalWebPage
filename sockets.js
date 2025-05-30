@@ -17,4 +17,4 @@ export function init(server) {
 
         controller.handleConnection(socket);
     });
-};
+}
