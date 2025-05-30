@@ -16,8 +16,6 @@ export default class QuizController {
                 User ${readyUser} is ready to start the quiz with ${opponentUser}.
                 Quiz ID: ${quizId}`);
 
-            // 只有双方触发ready事件后，才执行之后的代码，否则等待
-
             let launchSocketId = this.socketService.getSocketIdByUsername(launchUsername);
             let receiveSocketId = this.socketService.getSocketIdByUsername(receiveUsername);
 

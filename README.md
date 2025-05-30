@@ -1,7 +1,9 @@
 # Report of Assignment
 
-## 1. Project Structure
+## 1. Introduction and Project Structure
+Foreword: If you need to test whether the function of my quiz module is normal, please use two browsers for the test. Because I have stored the user and competition information in `localStorage`, using the same browser client will cause the content of `localStorage` to be overwritten.
 This Web application adopts the MVC software architecture. Its file structure, as well as the functions of each file and folder, are as follows:
+
 ```
 WebAssignment/
 ├── bin/
@@ -104,14 +106,78 @@ The Quiz Part is the most important part of this assignment. I have divided it i
 
 The Login Page mainly handles the login logic of users. Users enter their usernames on this page and then click "Login" to enter the Matching Hall Page. 
 
+![The login page in PC](./docs/login-before.png)
+
 If the server detects that the username has been occupied by other online users, the front end will prompt login failure and provide a button to return to the login page.
+
+![The login page when username has occupied in PC](./docs/login-redirect.png)
 
 In fact, there are no interaction events between the socket server and the client on the Login page. The socket initialization connection is triggered when entering the Matching Hall Page. I will introduce these contents in detail in the next part.
 
 ### 4.2 Matching Hall Page
 
+The Matching Hall Page has fully realized the entire matching process. When users enter the platform, they can see all the current online players and can click on any player to initiate a match. The matched players can choose to agree or reject.
+
+![The matching hall page in PC](./docs/matching-hall.png)
+
+![The matching hall response page in PC](./docs/matching-response.png)
+
+When the two sides match successfully, "Matching Success" will be displayed and it will be automatically redirected to "Quiz Page" after 3 seconds.
+
+![The matching success page in PC](./docs/matching-success.png)
+
+The socket communication process of the current page is shown in the following figure:
+
+![The matching logic](./docs/hall-logic.png)
+
 ### 4.3 Quiz Page
 
+The Quiz Page is responsible for handling the logic of battles between users. When both users are linked to the server, they need to click the "Start" button to indicate that they are ready.
+
+![The quiz before ready page in PC](./docs/quiz-ready.png)
+
+After both sides of the competition are ready, the competition will start and users can choose an answer and submit it.
+
+![The quiz on competition in PC](./docs/quiz-answer-part.png)
+
+After both sides have submitted, the server will return the Result to the client. The client can view the current competition situation in the Result section, including the total scores of both sides, the result of this question, and the score of this question.
+
+![The quiz after a question completed in PC](./docs/quiz-question-result.png)
+
+After completing this question, the server will send the Next question only when both sides of the competition click "Ready for Next".
+
+When the competition reaches the last question, after clicking "Ready for Next" on both sides, the competition result will be displayed.
+
+![The quiz finished in PC](./docs/quiz-finished.png)
+
+This structure ensures that users on both sides can receive the questions simultaneously and will not receive the answers to the main topic or information about other questions in advance, guaranteeing the fairness of the competition.
+
+Meanwhile, during the competition, if either side leaves the game, the other side will receive a message that the other side is offline. The competition will end early.
+
+![The quiz interrupted in PC](./docs/quiz-interrupt.png)
+
+The socket communication process of the current page is shown in the following figure:
+
+![The quiz logic](./docs/quiz-logic.png)
+
 ## 5. Challenges
+During the development process, I encountered a rather troublesome problem. Since my Quiz section is not implemented with a single route and a single HTML. During the page jump process, the socket will disconnect. After reaching a new page, the socket will reconnect and generate a new socketId. This was not taken into consideration when I initially designed the software architecture.
+
+This will cause A problem. When User A connects to the Quiz page and clicks "Start", if User B has not completed the initialization of the socket connection due to network issues, the Quiz creation will refer to the already deprecated socketId instead of the new SocketId after user B connects. This will lead to the inability of both sides in the competition to play normally.
+
+Due to time constraints, I don't have enough time to re-modify the architecture and solve this problem. If you encounter this situation during use, please be sure to wait until both sides have completed loading before clicking "Start". I have located the problem near lines 19-20 of `quizController.js` and need to add an asynchronous wait to solve it. This problem tells me that doing a good job in software architecture design is not simply reusing the familiar architecture, but rather understanding the business logic and the characteristics of the software packages one needs to rely on in a targeted manner, and then providing targeted solutions.
+
+Meanwhile, if you encounter some other minor bugs. The best solution is to restart the backend service and re-enter the Quiz section (if not restarted, the objects in the backend model section will store some incorrect information). During the testing process, I have ensured that there are no serious bugs in the main logic of the competition. However, under some boundary conditions, there might be minor bugs triggered. Due to time constraints, we hope you can understand.
 
 ## 6. References
+1. Personal Blog Design Reference
+Markyan04 Blog. Front-end page design inspiration. http://markyan04.cn
+Note: Although this is my personal blog application, it deployment based on Halo framework with front-end components provided by Halo
+
+2. AI Design Assistant
+DeepSeek GenAI.  Interface styling and beautification support tool.
+Used for CSS optimization and responsive layout enhancements
+
+3. Icon Resources
+Iconfont.  Alibaba Vector Icon Library. https://www.iconfont.cn/
+Source for all SVG icons used throughout the application
